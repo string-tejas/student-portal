@@ -5,11 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CgMenuLeftAlt } from "react-icons/cg";
 
+const noNavbar = ["/login", "/forgot-password"];
+
 const Navbar = () => {
     const pathname = usePathname();
     const { state } = useGlobalContext();
 
-    if (pathname === "/login") return null;
+    if (noNavbar.includes(pathname)) return null;
 
     return (
         <nav
