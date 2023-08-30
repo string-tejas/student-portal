@@ -15,7 +15,7 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`bg-surface-blue tracking-wide border-b-[1px] border-gray-600 pl-10 pr-3 md:px-14 py-2 md:py-3 flex items-center justify-start relative`}
+            className={`bg-surface-blue tracking-wide border-b-[1px] border-gray-600 pl-10 pr-3 md:px-14 py-2 md:py-3 flex items-center justify-start sticky top-0`}
         >
             {" "}
             {state.user ? (

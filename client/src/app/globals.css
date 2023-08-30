@@ -16,6 +16,11 @@
   }
 }
 
+#tsparticles {
+  z-index: -1;
+  position: fixed;
+}
+
 /* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
