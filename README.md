@@ -20,9 +20,9 @@ npm run dev
 
 ### Client
 
-- `NEXT_PUBLIC_API_URL`: URL of the API server (default: `http://localhost:3000/api`)
+- `NEXT_PUBLIC_API_URL`: URL of the API server (default: `http://localhost:5000/api`)
 
 ### Server
 
 - `PORT`: Port to listen on (default: `5000`)
-- `MONGO_URL`: MongoDB connection string (default: `mongodb://localhost:27017/student-portal`)
+- `MONGO_URI`: MongoDB connection string (default: `mongodb://localhost:27017/student-portal`)

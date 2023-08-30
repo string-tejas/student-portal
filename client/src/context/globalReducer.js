@@ -26,6 +26,7 @@ const globalReducer = (state, action) => {
     }
 };
 
-export const useGlobalReducer = () => useReducer(globalReducer, initialState);
+export const useGlobalReducer = (obj = {}) =>
+    useReducer(globalReducer, { ...initialState, obj });
 
 export default globalReducer;
