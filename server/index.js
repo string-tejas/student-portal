@@ -2,7 +2,9 @@ import express from "express";
 import cors from "cors";
 import { config } from "dotenv";
 import authRoutes from "./routes/auth.js";
+import servicesRoutes from "./routes/services.js";
 import connectDb from "./config/database.js";
+
 config();
 
 const app = express();
@@ -17,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/services", servicesRoutes);
 
 app.listen(port, async () => {
     console.log("Example app listening on port " + port);
