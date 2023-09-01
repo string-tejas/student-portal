@@ -15,7 +15,7 @@ const Login = () => {
     const router = useRouter();
 
     if (state.user) {
-        router.push("/");
+        router.push("/dashboard");
         return null;
     }
 
@@ -33,7 +33,7 @@ const Login = () => {
             setErrors({});
 
             console.log(result);
-            router.push("/");
+            router.push("/dashboard");
         } else {
             console.log("Login failed");
             setErrors({

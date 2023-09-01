@@ -1,24 +1,24 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Providers from "./providers";
-import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-    title: "Student Portal | SPIT",
-    description: "Student portal for Sardar Patel Institute of Technology",
-};
-
-export default function RootLayout({ children }) {
+const Layout = ({ children }) => {
     return (
         <html lang="en">
-            <body className={`${inter.className} bg-dark-blue text-white`}>
-                <Providers>
-                    <Navbar />
-                    {children}
-                </Providers>
+            <body
+                className={`${inter.className}`}
+                style={{
+                    background: "#111827",
+                    margin: 0,
+                    padding: 0,
+                    color: "white",
+                }}
+            >
+                {children}
             </body>
         </html>
     );
-}
+};
+
+export default Layout;

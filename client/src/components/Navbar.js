@@ -37,7 +37,7 @@ const Navbar = () => {
                     className="h-[24px] md:h-[32px] absolute left-3 md:left-4"
                 />
             )}
-            <Link href="/">
+            <Link href="/dashboard">
                 <h1 className="text-md md:text-xl font-bold">
                     Student <span className="text-blue-500">Portal</span>
                 </h1>

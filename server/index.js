@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { config } from "dotenv";
 import authRoutes from "./routes/auth.js";
-import servicesRoutes from "./routes/services.js";
+// import servicesRoutes from "./routes/services.js";
 import connectDb from "./config/database.js";
 
 config();

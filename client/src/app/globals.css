@@ -21,6 +21,11 @@
   position: fixed;
 }
 
+.not-found-img {
+  width: 500px;
+  
+}
+
 /* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

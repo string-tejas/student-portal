@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { GlobalActions, useGlobalReducer } from "./globalReducer";
-import Loading from "@/app/loading";
+import Loading from "@/app/(dashboard)/loading";
 import { getUser } from "@/api/auth";
 
 export const GlobalContext = createContext();
