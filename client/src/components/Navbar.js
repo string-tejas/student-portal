@@ -10,7 +10,7 @@ import { BiLogOut } from "react-icons/bi";
 
 const noNavbar = ["/login", "/forgot-password"];
 
-const Navbar = () => {
+const Navbar = ({ onHamburgerClick = () => {} }) => {
     const pathname = usePathname();
     const { state } = useGlobalContext();
 
@@ -23,11 +23,14 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`bg-surface-blue tracking-wide border-b-[1px] border-gray-600 pl-10 pr-3 md:px-14 py-2 md:py-3 flex items-center justify-start sticky top-0`}
+            className={`bg-surface-blue z-10 tracking-wide border-b-[1px] border-gray-600 pl-10 pr-3 md:px-14 py-2 md:py-3 flex items-center justify-start sticky top-0`}
         >
             {" "}
             {state.user ? (
-                <button className="absolute text-lg left-1 top-2 md:text-2xl md:left-2 md:top-2 p-[4px] m-[4px] rounded-sm hover:bg-slate-700 focus:ring-2">
+                <button
+                    onClick={onHamburgerClick}
+                    className="absolute text-lg left-1 top-2 md:text-2xl md:left-2 md:top-2 p-[4px] m-[4px] rounded-sm hover:bg-slate-700 focus:ring-2"
+                >
                     <CgMenuLeftAlt />
                 </button>
             ) : (

@@ -13,7 +13,9 @@ export const metadata = {
 const Layout = ({ children }) => {
     return (
         <html lang="en">
-            <body className={`${inter.className} bg-dark-blue text-white`}>
+            <body
+                className={`${inter.className} bg-dark-blue text-white h-full overflow-hidden`}
+            >
                 <Providers>{children}</Providers>
             </body>
         </html>
