@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const NotFound = () => {
     return (
@@ -13,10 +14,13 @@ const NotFound = () => {
                 justifyContent: "center",
             }}
         >
-            <img
+            <Image
                 src="/images/404.png"
+                width={400}
+                height={500}
                 style={{
                     width: "min(90vw, 500px)",
+                    height: "auto",
                 }}
             />
             <h1 style={{ color: "white", fontWeight: "700", margin: "0" }}>

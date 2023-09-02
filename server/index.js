@@ -22,6 +22,6 @@ app.use("/auth", authRoutes);
 // app.use("/services", servicesRoutes);
 
 app.listen(port, async () => {
-    console.log("Example app listening on port " + port);
+    console.log("Express app listening on port " + port);
     await connectDb();
 });
