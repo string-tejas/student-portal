@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-require("dotenv").config();
 
 async function sendEmail(email, subject, message) {
     if (!email || !subject || !message) {

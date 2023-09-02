@@ -1,46 +1,42 @@
-import grpc from "grpc";
+import grpc from "@grpc/grpc-js";
 import protoLoader from "@grpc/proto-loader";
-import path from "path";
-import { URL } from "url";
+import { config } from "dotenv";
+config();
 
-const __dirname = new URL(".", import.meta.url).pathname;
+import * as url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
-const PROTO_PATH = path.join(__dirname, "mail.proto").substring(1);
+const PROTO_PATH = __dirname + "../proto/mail.proto";
 
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {});
+const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true,
+});
 
-const grpcObj = grpc.loadPackageDefinition(packageDefinition);
+const mailProto = grpc.loadPackageDefinition(packageDefinition).mail;
 
-const mailPackage = grpcObj.mail;
-
-const client = new mailPackage.Mail(
-    "127.0.0.1:50051",
+const client = new mailProto.Mail(
+    `127.0.0.1:${process.env.MAIL_PORT}`,
     grpc.credentials.createInsecure()
 );
 
-const sendEmail = async (email, subject, message) => {
+const sendEmail = async (to, subject, body) => {
     try {
-        console.log("About to invoke sendEmail");
         const result = await new Promise((resolve, reject) => {
-            client.sendEmail(
-                {
-                    to: email,
-                    subject: subject,
-                    text: message,
-                },
-                (err, res) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    resolve(res);
+            client.sendEmail({ to, subject, body }, (err, response) => {
+                if (err) {
+                    reject(err);
                 }
-            );
+                resolve(response);
+            });
         });
-        console.log("Result", result);
-
+        console.log(result);
         return result;
     } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error);
     }
 };
 

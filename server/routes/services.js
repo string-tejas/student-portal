@@ -3,10 +3,10 @@ import sendEmail from "../controllers/sendEmail.js";
 const router = Router();
 
 router.post("/mail", async (req, res) => {
-    const { email, subject, message } = req.body;
-    console.log(email, subject, message);
+    const { to, subject, message } = req.body;
+    console.log(to, subject, message);
     try {
-        const result = await sendEmail(email, subject, message);
+        const result = await sendEmail(to, subject, message);
 
         res.status(200).json(result);
     } catch (error) {

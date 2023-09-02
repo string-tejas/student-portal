@@ -1,5 +1,5 @@
 {
-  "name": "services",
+  "name": "mail-service",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@grpc/grpc-js": "^1.9.2",
     "@grpc/proto-loader": "^0.7.9",
     "dotenv": "^16.3.1",
-    "grpc": "^1.24.11",
     "nodemailer": "^6.9.4"
   }
 }
