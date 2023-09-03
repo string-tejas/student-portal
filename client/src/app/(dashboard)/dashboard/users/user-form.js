@@ -5,7 +5,8 @@ import users from "@/utils/users";
 import { filterUserDropdown } from "./data";
 import SubmitButton from "@/components/SubmitButton";
 
-filterUserDropdown.shift();
+const userTypes = [...filterUserDropdown];
+userTypes.shift();
 
 const initalState = {
     name: {
@@ -101,7 +102,7 @@ const UserForm = ({ update = false, user = {}, onSubmit = async () => {} }) => {
                     setValue={(value) =>
                         handleChange({ target: { name: "role", value } })
                     }
-                    list={filterUserDropdown}
+                    list={userTypes}
                 />
             </div>
             <div className="md:col-span-6 flex flex-col gap-[4px]">
