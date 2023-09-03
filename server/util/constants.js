@@ -2,11 +2,11 @@ const constants = {
     DB: "main",
     roles: {
         ADMIN: "admin",
+        DEAN: "dean",
+        EXAM_OFFICER: "exam_officer",
+        COORDINATOR: "coordinator",
         TEACHER: "teacher",
         STUDENT: "student",
-        COORDINATOR: "coordinator",
-        EXAM_OFFICER: "exam_officer",
-        DEAN: "dean",
     },
     gender: {
         MALE: "male",

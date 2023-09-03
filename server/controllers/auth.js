@@ -1,8 +1,11 @@
 import User from "../models/User.js";
 import compareHash from "../util/compareHash.js";
 import convertToSafeUser from "../util/convertToSafeUser.js";
+import emailTemplates from "../util/emailTemplates.js";
 import generateToken from "../util/generateToken.js";
 import hash from "../util/hash.js";
+import isEmailValid from "../util/isEmailValid.js";
+import sendEmail from "./sendEmail.js";
 
 export const login = async (req, res) => {
     try {
@@ -77,7 +80,23 @@ export const register = async (req, res) => {
             });
         }
 
+        const validEmail = await isEmailValid(email);
+
+        if (!validEmail) {
+            return res.status(400).json({
+                message: "Invalid email",
+                field: "email",
+                ok: false,
+            });
+        }
+
         const user = await User.create(newUser);
+
+        await sendEmail(
+            email,
+            "Account created",
+            emailTemplates.accountCreated(name, role, email, password)
+        );
 
         return res.status(201).json({
             user: convertToSafeUser(user),
