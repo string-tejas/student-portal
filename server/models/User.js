@@ -6,7 +6,19 @@ const { roles } = constants;
 const userSchema = new mongoose.Schema(
     {
         name: {
-            type: String,
+            first: {
+                type: String,
+                required: true,
+                trim: true,
+            },
+            middle: {
+                type: String,
+                trim: true,
+            },
+            last: {
+                type: String,
+                trim: true,
+            },
         },
 
         email: {

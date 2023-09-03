@@ -69,6 +69,12 @@ const Navbar = ({ onHamburgerClick = () => {} }) => {
 };
 
 const NavDropdown = ({ user, onLogout = {} }) => {
+    const name = () => {
+        if (user?.name?.first && user?.name?.last)
+            return `${user.name.first} ${user.name.last}`;
+        else if (user?.name?.first) return user.name.first;
+        else return user?.email;
+    };
     return (
         <Menu as="div" className="ml-auto relative">
             <Menu.Button className=" pl-2 pr-3 rounded-md py-[5px] bg-slate-700 cursor-pointer flex items-center justify-between gap-2 hover:bg-slate-600 tracking-tight">
@@ -77,9 +83,7 @@ const NavDropdown = ({ user, onLogout = {} }) => {
                     alt="avatar"
                     className="w-6 h-6 rounded-full"
                 />
-                <span className="text-xs md:text-sm">
-                    {user?.name || user?.email}
-                </span>
+                <span className="text-xs md:text-sm">{name()}</span>
             </Menu.Button>
             <Transition
                 as={Fragment}
