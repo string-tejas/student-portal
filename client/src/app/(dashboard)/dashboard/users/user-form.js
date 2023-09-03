@@ -21,7 +21,7 @@ const initalState = {
 };
 
 const UserForm = ({ update = false, user = {}, onSubmit = async () => {} }) => {
-    const { values, errors, handleChange, handleSubmit } = useForm(
+    const { values, errors, handleChange, handleSubmit, resetValues } = useForm(
         initalState,
         onSubmit
     );
@@ -79,8 +79,13 @@ const UserForm = ({ update = false, user = {}, onSubmit = async () => {} }) => {
             </div>
 
             <div className="md:col-span-6 flex flex-col gap-[4px]">
-                <label className="text-sm ml-1" htmlFor="email">
+                <label className="text-sm ml-1 flex" htmlFor="email">
                     Email
+                    {errors?.email && (
+                        <span className="text-red-500 text-xs ml-auto">
+                            {errors?.email}
+                        </span>
+                    )}
                 </label>
                 <input
                     className="border border-gray-500 outline-none bg-gray-700 focus:border-blue-600 rounded-md px-2 py-[6px]"
@@ -94,8 +99,13 @@ const UserForm = ({ update = false, user = {}, onSubmit = async () => {} }) => {
             </div>
 
             <div className="md:col-span-6 flex flex-col gap-[4px]">
-                <label className="text-sm ml-1" htmlFor="role">
-                    Select Role
+                <label className="text-sm ml-1 flex" htmlFor="role">
+                    Select role
+                    {errors?.role && (
+                        <span className="text-red-500 text-xs ml-auto">
+                            {errors?.role}
+                        </span>
+                    )}
                 </label>
                 <DropDown
                     value={values?.role}
@@ -132,6 +142,7 @@ const UserForm = ({ update = false, user = {}, onSubmit = async () => {} }) => {
                 <SubmitButton
                     disabled={values?.submitting}
                     className="bg-red-800 hover:bg-red-900 md:min-w-[100px] ml-2 ring-red-950"
+                    onClick={resetValues}
                 >
                     Reset
                 </SubmitButton>

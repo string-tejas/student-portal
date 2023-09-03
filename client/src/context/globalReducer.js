@@ -2,11 +2,18 @@ import { useReducer } from "react";
 
 const initialState = {
     user: null,
+    token: null,
+    toast: {
+        message: "",
+        type: "",
+    },
 };
 
 export const GlobalActions = {
     LOGIN: "LOGIN",
     LOGOUT: "LOGOUT",
+    SET_TOKEN: "SET_TOKEN",
+    SET_TOAST: "SET_TOAST",
 };
 
 const globalReducer = (state, action) => {
@@ -21,6 +28,18 @@ const globalReducer = (state, action) => {
                 ...state,
                 user: null,
             };
+        case GlobalActions.SET_TOKEN:
+            return {
+                ...state,
+                token: action.payload,
+            };
+
+        case GlobalActions.SET_TOAST:
+            return {
+                ...state,
+                toast: action.payload,
+            };
+
         default:
             return state;
     }

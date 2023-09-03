@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
+import Toast from "@/components/Toast";
 
 const Layout = ({ children }) => {
     const { state } = useGlobalContext();
@@ -35,6 +36,7 @@ const Layout = ({ children }) => {
                     {children}
                 </div>
             </div>
+            <Toast />
         </main>
     );
 };

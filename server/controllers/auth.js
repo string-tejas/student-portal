@@ -17,6 +17,7 @@ export const login = async (req, res) => {
             return res.status(404).json({
                 message: "User not found",
                 field: "email",
+                ok: false,
             });
         }
 
@@ -26,6 +27,7 @@ export const login = async (req, res) => {
             return res.status(400).json({
                 message: "Incorrect password",
                 field: "password",
+                ok: false,
             });
         }
 
@@ -39,6 +41,7 @@ export const login = async (req, res) => {
         res.status(500).json({
             message: "Server Error",
             field: "email",
+            ok: false,
         });
     }
 };
@@ -95,7 +98,7 @@ export const register = async (req, res) => {
         await sendEmail(
             email,
             "Account created",
-            emailTemplates.accountCreated(name, role, email, password)
+            emailTemplates.accountCreated(name?.first, role, email, password)
         );
 
         return res.status(201).json({

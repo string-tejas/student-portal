@@ -21,6 +21,10 @@ export const GlobalProvider = ({ children }) => {
                         type: GlobalActions.LOGIN,
                         payload: result.user,
                     });
+                    dispatch({
+                        type: GlobalActions.SET_TOKEN,
+                        payload: token,
+                    });
                 }
                 setLoading(false);
             });

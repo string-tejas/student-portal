@@ -35,10 +35,14 @@ const useForm = (initialValues, callback = async () => {}) => {
         }));
     };
 
+    const resetValues = () => {
+        setValues({ ...initialValues, submitting: false });
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSubmitting(true);
-        await callback(values, setErrors, setSubmitting);
+        await callback(values, setErrors, resetValues, setSubmitting);
         setSubmitting(false);
     };
 
@@ -49,6 +53,7 @@ const useForm = (initialValues, callback = async () => {}) => {
         setSubmitting,
         setErrors,
         handleSubmit,
+        resetValues,
     };
 };
 

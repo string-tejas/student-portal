@@ -8,12 +8,15 @@ const isCoordinator = (req, res, next) => {
         constants.roles.COORDINATOR,
     ];
 
+    console.log("role of user", req.user.role);
+
     if (!authorizedRoles.includes(req.user.role)) {
         return res.status(401).json({
             message: "Unauthorized",
             ok: false,
         });
     }
+    console.log("role of user", req.user.role);
     next();
 };
 
