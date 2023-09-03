@@ -4,6 +4,7 @@ import express from "express";
 import { config } from "dotenv";
 
 import authRoutes from "./routes/auth.js";
+import usersRoutes from "./routes/users.js";
 // import servicesRoutes from "./routes/services.js";
 import connectDb from "./config/database.js";
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/users", usersRoutes);
 // app.use("/services", servicesRoutes);
 
 app.listen(port, async () => {

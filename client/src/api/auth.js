@@ -29,6 +29,7 @@ export const getUser = async (token) => {
         return response.data;
     } catch (error) {
         console.error(error);
+        localStorage.removeItem("token");
         return (
             error?.response?.data || {
                 ok: false,

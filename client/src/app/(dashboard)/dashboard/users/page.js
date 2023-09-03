@@ -1,14 +1,58 @@
 "use client";
 
 import BreadCrumbs from "@/components/BreadCrumbs";
-import { BiSearchAlt2, BiPlus } from "react-icons/bi";
-import { useState } from "react";
+import { BiPlus } from "react-icons/bi";
+import { useEffect, useState } from "react";
 import DropDown from "@/components/DropDown";
 import Link from "next/link";
 import { filterUserDropdown as roles } from "./data";
+import SearchBar from "@/components/SearchBar";
+import { getUsers } from "@/api/users";
+import { useGlobalContext } from "@/context/global";
+import { GlobalActions } from "@/context/globalReducer";
+import UserTable from "./user-table";
 
 const Page = () => {
-    const [filter, setFilter] = useState(roles[0]);
+    const [roleFilter, setRoleFilter] = useState(roles[0]);
+    const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([]);
+    const [page, setPage] = useState(1);
+    const { dispatch } = useGlobalContext();
+
+    const limit = 10;
+
+    useEffect(() => {
+        setLoading(true);
+        getUsers(page, limit, roleFilter.value)
+            .then((res) => {
+                if (res.ok) {
+                    setUsers(res.users);
+                    console.log(res);
+                } else {
+                    console.log(res.message);
+                    dispatch({
+                        type: GlobalActions.SET_TOAST,
+                        payload: {
+                            type: "error",
+                            message: res.message,
+                        },
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                dispatch({
+                    type: GlobalActions.SET_TOAST,
+                    payload: {
+                        type: "error",
+                        message: "An error occurred while fetching users",
+                    },
+                });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
 
     return (
         <main className="container">
@@ -17,25 +61,11 @@ const Page = () => {
                 Users
             </h1>
             <div className="flex mt-2 md:mt-4 items-center flex-wrap">
-                <form className="flex items-center ml-[2px]">
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        className="rounded-md w-52 text-xs md:text-base md:w-80 outline-none focus:ring-1 bg-gray-700 px-3 py-2"
-                        autoComplete="off"
-                    />
-
-                    <button
-                        type="submit"
-                        className="ml-2 px-3 py-2 md:py-[10px] rounded-lg bg-blue-600 hover:bg-blue-700"
-                    >
-                        <BiSearchAlt2 className="text-gray-300 text-lg" />
-                    </button>
-                </form>
+                <SearchBar placeholder="Search users" />
                 <DropDown
                     containerClassName="relative md:ml-4 py-2"
-                    value={filter}
-                    setValue={setFilter}
+                    value={roleFilter}
+                    setValue={setRoleFilter}
                     list={roles}
                 />
                 <Link href="/dashboard/users/create-user" className="ml-auto">
@@ -45,6 +75,9 @@ const Page = () => {
                     </button>
                 </Link>
             </div>
+            <section className="mt-5 w-full ">
+                <UserTable className="md:w-full" data={users} />
+            </section>
         </main>
     );
 };
