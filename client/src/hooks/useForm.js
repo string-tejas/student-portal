@@ -1,6 +1,18 @@
 "use client";
 import { useState } from "react";
 
+/**
+ * Custom hook to handle form state
+ * @param {Object} initialValues Inital values for the form
+ * @param {() => Promise<void>} callback Callback function to be called on form submission
+ * @returns {Object} An object containing the following:
+ * - handleChange: Function to handle change in form values
+ * - values: Current form values
+ * - errors: Current form errors
+ * - setSubmitting: Function to set the submitting state
+ * - setErrors: Function to set the errors
+ * - handleSubmit: Function to handle form submission
+ */
 const useForm = (initialValues, callback = async () => {}) => {
     const [values, setValues] = useState({
         ...initialValues,
@@ -10,7 +22,6 @@ const useForm = (initialValues, callback = async () => {}) => {
     const [errors, setErrors] = useState({});
 
     const handleChange = (event) => {
-        event.persist();
         setValues((values) => ({
             ...values,
             [event.target.name]: event.target.value,

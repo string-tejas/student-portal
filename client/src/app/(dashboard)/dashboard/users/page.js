@@ -2,41 +2,10 @@
 
 import BreadCrumbs from "@/components/BreadCrumbs";
 import { BiSearchAlt2, BiPlus } from "react-icons/bi";
-import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import DropDown from "@/components/DropDown";
 import Link from "next/link";
-
-const roles = [
-    {
-        id: uuid(),
-        name: "All",
-    },
-    {
-        id: uuid(),
-        name: "Admin",
-    },
-    {
-        id: uuid(),
-        name: "Dean",
-    },
-    {
-        id: uuid(),
-        name: "Exam Officer",
-    },
-    {
-        id: uuid(),
-        name: "Co-ordinator",
-    },
-    {
-        id: uuid(),
-        name: "Teacher",
-    },
-    {
-        id: uuid(),
-        name: "Student",
-    },
-];
+import { filterUserDropdown as roles } from "./data";
 
 const Page = () => {
     const [filter, setFilter] = useState(roles[0]);

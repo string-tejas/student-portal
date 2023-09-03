@@ -27,7 +27,11 @@ const Layout = ({ children }) => {
                 <div>
                     <Sidebar expanded={expanded} />
                 </div>
-                <div className="pt-2 w-full overflow-auto h-[91vh]">
+                <div
+                    className={`${
+                        !expanded ? "blur md:blur-0" : ""
+                    } pt-2 pr-1 w-full overflow-auto h-[91vh]`}
+                >
                     {children}
                 </div>
             </div>

@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     return (
         <html lang="en">
             <body
-                className={`${inter.className} bg-dark-blue text-white`}
+                className={`${inter.className} bg-dark-blue text-white h-full overflow-hidden`}
                 style={{
                     background: "#111827",
                     margin: 0,

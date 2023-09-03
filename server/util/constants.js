@@ -4,6 +4,9 @@ const constants = {
         ADMIN: "admin",
         TEACHER: "teacher",
         STUDENT: "student",
+        COORDINATOR: "coordinator",
+        EXAM_OFFICER: "exam_officer",
+        DEAN: "dean",
     },
     gender: {
         MALE: "male",
