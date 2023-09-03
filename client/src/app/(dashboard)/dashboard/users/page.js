@@ -75,7 +75,7 @@ const Page = () => {
                     </button>
                 </Link>
             </div>
-            <section className="mt-5 w-full ">
+            <section className="mt-5 w-full overflow-x-auto shadow-md md:rounded-md">
                 <UserTable className="md:w-full" data={users} />
             </section>
         </main>

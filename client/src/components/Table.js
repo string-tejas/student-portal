@@ -5,12 +5,16 @@ const Container = ({ className = "", children }) => {
 };
 
 const Head = ({ className = "", children }) => {
-    return <thead className={className + " bg-gray-600"}>{children}</thead>;
+    return <thead className={className + "  bg-gray-600"}>{children}</thead>;
 };
 
 const Tr = ({ className = "", children }) => {
     return (
-        <tr className={className + " border-b border-gray-700"}>{children}</tr>
+        <tr
+            className={className + " last:border-none border-b border-gray-700"}
+        >
+            {children}
+        </tr>
     );
 };
 
@@ -19,7 +23,7 @@ const Th = ({ className = "", children }) => {
         <th
             className={
                 className +
-                " px-2 py-2 text-gray-400 text-left text-xs font-bold tracking-wider uppercase whitespace-nowrap"
+                " px-2 py-2 text-gray-300 text-left text-xs font-bold tracking-wider uppercase whitespace-nowrap"
             }
         >
             {children}
@@ -35,7 +39,7 @@ const Td = ({ className = "", children }) => {
     return (
         <td
             className={
-                className + " text-xs md:text-sm py-2 px-2 whitespace-nowrap"
+                className + " text-xs md:text-sm py-2 px-3 whitespace-nowrap"
             }
         >
             {children}

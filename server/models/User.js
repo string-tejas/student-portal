@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema(
             },
         },
 
+        profile_img: {
+            type: String,
+            default: "/images/avatar-guy.jpg",
+        },
+
         email: {
             type: String,
             required: true,
