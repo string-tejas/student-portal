@@ -2,6 +2,7 @@
 
 import BreadCrumbs from "@/components/BreadCrumbs";
 import { BiPlus } from "react-icons/bi";
+import { MdRefresh } from "react-icons/md";
 import { useEffect, useState } from "react";
 import DropDown from "@/components/DropDown";
 import Link from "next/link";
@@ -21,8 +22,9 @@ const Page = () => {
 
     const limit = 10;
 
-    useEffect(() => {
+    const fetchUsers = () => {
         setLoading(true);
+
         getUsers(page, limit, roleFilter.value)
             .then((res) => {
                 if (res.ok) {
@@ -50,8 +52,14 @@ const Page = () => {
                 });
             })
             .finally(() => {
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 500);
             });
+    };
+
+    useEffect(() => {
+        fetchUsers();
     }, []);
 
     return (
@@ -68,15 +76,35 @@ const Page = () => {
                     setValue={setRoleFilter}
                     list={roles}
                 />
-                <Link href="/dashboard/users/create-user" className="ml-auto">
-                    <button className="flex items-center gap-1 md:gap-2 text-gray-200 hover:text-white focus:ring-4 mr-2 md:mr-6 px-1 py-1 md:px-4 md:py-2 rounded-lg text-sm bg-blue-600 hover:bg-blue-700">
-                        <BiPlus className="text-lg" />
-                        <span className="">Add User</span>
+                <div className="ml-auto flex items-center gap-3">
+                    <button
+                        className={
+                            "bg-gray-600 px-2 py-2 hover:bg-gray-500 rounded-md"
+                        }
+                        disabled={loading}
+                        onClick={() => fetchUsers()}
+                    >
+                        <MdRefresh
+                            className={
+                                "text-xl " +
+                                (loading ? "animate-spin duration-75" : "")
+                            }
+                        />
                     </button>
-                </Link>
+                    <Link href="/dashboard/users/create-user">
+                        <button className="flex items-center gap-1 md:gap-2 text-gray-200 hover:text-white focus:ring-4 mr-2 md:mr-6 px-1 py-1 md:px-4 md:py-2 rounded-lg text-sm bg-blue-600 hover:bg-blue-700">
+                            <BiPlus className="text-lg" />
+                            <span className="">Add User</span>
+                        </button>
+                    </Link>
+                </div>
             </div>
             <section className="mt-5 w-full overflow-x-auto shadow-md md:rounded-md">
-                <UserTable className="md:w-full" data={users} />
+                <UserTable
+                    className="md:w-full"
+                    data={users}
+                    loading={loading}
+                />
             </section>
         </main>
     );
