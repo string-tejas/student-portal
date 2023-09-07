@@ -33,7 +33,7 @@ const sendEmail = async (to, subject, body) => {
                 resolve(response);
             });
         });
-        console.log(result);
+        console.log("RPC result", result);
         return result;
     } catch (error) {
         console.log(error);

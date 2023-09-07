@@ -13,6 +13,14 @@ export const login = async (req, res) => {
 
         const user = await User.findOne({ email });
 
+        const clientIpAddress = req.socket.remoteAddress;
+        const clientPort = req.socket.remotePort;
+        const serverIpAddress = req.socket.localAddress;
+        const serverPort = req.socket.localPort;
+
+        console.log(`Client IP Address: ${clientIpAddress}:${clientPort}`);
+        console.log(`Server IP Address: ${serverIpAddress}:${serverPort}`);
+
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
@@ -30,6 +38,8 @@ export const login = async (req, res) => {
                 ok: false,
             });
         }
+
+        console.log("Login successful");
 
         res.status(200).json({
             token: generateToken(user._id),
@@ -94,6 +104,9 @@ export const register = async (req, res) => {
         }
 
         const user = await User.create(newUser);
+
+        console.log("User created");
+        console.log("Invoking sendEmail remote procedure");
 
         await sendEmail(
             email,

@@ -1,7 +1,7 @@
 import cors from "cors";
-config();
 import express from "express";
 import { config } from "dotenv";
+config();
 
 import authRoutes from "./routes/auth.js";
 import usersRoutes from "./routes/users.js";
@@ -16,6 +16,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
+    const clientIpAddress = req.socket.remoteAddress;
+    const clientPort = req.socket.remotePort;
+    const serverIpAddress = req.socket.localAddress;
+    const serverPort = req.socket.localPort;
+
+    console.log(`Client IP Address: ${clientIpAddress}:${clientPort}`);
+    console.log(`Server IP Address: ${serverIpAddress}:${serverPort}`);
+
     res.send("Hello World!");
 });
 
@@ -24,6 +32,6 @@ app.use("/users", usersRoutes);
 // app.use("/services", servicesRoutes);
 
 app.listen(port, async () => {
-    console.log("Express app listening on port " + port);
+    console.log("Web server listening on port " + port);
     await connectDb();
 });
