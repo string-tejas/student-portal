@@ -1,6 +1,7 @@
 "use client";
 import { useGlobalContext } from "@/context/global";
 import adminData from "./adminData";
+import teacherData from "./teacherData";
 import Link from "next/link";
 
 const Sidebar = ({ expanded }) => {
@@ -9,6 +10,8 @@ const Sidebar = ({ expanded }) => {
 
     if (state.user?.role === "admin") {
         data = adminData;
+    } else if (state.user?.role === "teacher") {
+        data = teacherData;
     }
 
     return (

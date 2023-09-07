@@ -26,6 +26,9 @@ const Toast = () => {
         }
         return () => clearTimeout(id);
     }, [state.toast]);
+
+    if (!state.toast.message) return null;
+
     return (
         <div className="fixed top-24 right-3 md:right-12">
             <Transition

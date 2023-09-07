@@ -19,7 +19,9 @@ export const getUsers = async (req, res) => {
             query.role = role;
         }
 
-        // get users from database
+        // get users from database and sort by role priority and name
+        // role sort order: admin > dean > coordinator > teacher > student
+        // exclude password and password reset fields
         const users = await User.find(
             {},
             {
@@ -28,7 +30,10 @@ export const getUsers = async (req, res) => {
                 password_reset_token: 0,
             },
             query
-        );
+        ).sort({
+            role: 1,
+            name: 1,
+        });
 
         // get total documents in the User collection
         const count = await User.countDocuments();
