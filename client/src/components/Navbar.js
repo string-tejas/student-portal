@@ -111,10 +111,7 @@ const NavDropdown = ({ user, onLogout = {} }) => {
                                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
                                     <span className="ml-2">Logout</span>
-                                    <BiLogOut
-                                        className="mr-2 ml-auto h-5 w-5"
-                                        aria-hidden="true"
-                                    />
+                                    <BiLogOut className="mr-2 ml-auto h-5 w-5" />
                                 </button>
                             )}
                         </Menu.Item>

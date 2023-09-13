@@ -15,7 +15,6 @@ const DropDown = ({
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                         <svg
                             className="w-2.5 h-2.5 ml-2.5"
-                            aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 10 6"
