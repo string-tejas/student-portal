@@ -3,6 +3,7 @@ import { useReducer } from "react";
 const initialState = {
     user: null,
     token: null,
+    courses: null,
     toast: {
         message: "",
         type: "",
@@ -14,6 +15,7 @@ export const GlobalActions = {
     LOGOUT: "LOGOUT",
     SET_TOKEN: "SET_TOKEN",
     SET_TOAST: "SET_TOAST",
+    SET_COURSES: "SET_COURSES",
 };
 
 const globalReducer = (state, action) => {
@@ -38,6 +40,12 @@ const globalReducer = (state, action) => {
             return {
                 ...state,
                 toast: action.payload,
+            };
+
+        case GlobalActions.SET_COURSES:
+            return {
+                ...state,
+                courses: action.payload,
             };
 
         default:

@@ -33,7 +33,9 @@ export const getAllCourses = async (req, res) => {
 export const getCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        const course = await Course.findById(id)
+        const code = id;
+        const creator_id = req.user._id;
+        const course = await Course.find({ code, creator_id })
             .populate("assignments")
             .populate("exams");
 

@@ -19,7 +19,7 @@ const initialFormData = {
 const Page = () => {
     const { state, dispatch } = useGlobalContext();
 
-    const onFormSubmit = async (values, setErrors, resetForm) => {
+    const onFormSubmit = async (values, setErrors, resetValues) => {
         const subObj = {
             ...values,
             course_img: "/images/geometric-shapes-pattern.jpg",
@@ -49,7 +49,7 @@ const Page = () => {
                 },
             });
 
-            resetForm();
+            resetValues();
         } else {
             dispatch({
                 type: GlobalActions.SET_TOAST,
