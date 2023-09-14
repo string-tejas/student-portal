@@ -33,7 +33,6 @@ const NewCourseForm = ({ initialValues, onSubmit = () => {} }) => {
                             <input
                                 type="text"
                                 name="name"
-                                id="name"
                                 className=" border text-sm rounded-lg  block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500"
                                 placeholder="Ex. Cloud and Information Technology (Batch 2025)"
                                 required
@@ -91,7 +90,9 @@ const NewCourseForm = ({ initialValues, onSubmit = () => {} }) => {
                                 value={values.batch}
                                 onChange={handleChange}
                             >
-                                <option hidden>Select Passout year</option>
+                                <option hidden value="">
+                                    Select Passout year
+                                </option>
                                 {next4years.map((year) => {
                                     return (
                                         <option value={year} key={uuid()}>

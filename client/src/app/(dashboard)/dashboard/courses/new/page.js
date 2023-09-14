@@ -49,7 +49,9 @@ const Page = () => {
                 },
             });
 
-            resetValues();
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         } else {
             dispatch({
                 type: GlobalActions.SET_TOAST,

@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 
 const Page = () => {
     const { state, dispatch } = useGlobalContext();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!state.courses) {

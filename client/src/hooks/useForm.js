@@ -36,6 +36,7 @@ const useForm = (initialValues, callback = async () => {}) => {
     };
 
     const resetValues = () => {
+        console.log("Resetting values");
         setValues({ ...initialValues, submitting: false });
         setErrors({});
     };
@@ -43,7 +44,13 @@ const useForm = (initialValues, callback = async () => {}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSubmitting(true);
-        await callback(values, setErrors, resetValues, setSubmitting);
+        await callback(
+            values,
+            setErrors,
+            resetValues,
+            setSubmitting,
+            setValues
+        );
         setSubmitting(false);
     };
 

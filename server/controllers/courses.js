@@ -1,4 +1,5 @@
 import Course from "../models/Course.js";
+import User from "../models/User.js";
 
 export const getAllCourses = async (req, res) => {
     try {
@@ -33,11 +34,12 @@ export const getAllCourses = async (req, res) => {
 export const getCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        const code = id;
         const creator_id = req.user._id;
-        const course = await Course.find({ code, creator_id })
+
+        const course = await Course.findOne({ code: id })
             .populate("assignments")
-            .populate("exams");
+            .populate("exams")
+            .exec();
 
         if (!course) {
             return res.status(404).json({
@@ -46,16 +48,29 @@ export const getCourse = async (req, res) => {
             });
         }
 
-        if (course.creator_id !== req.user._id && req.user.role !== "admin") {
+        if (
+            !course.creator_id.equals(creator_id) &&
+            req.user.role !== "admin"
+        ) {
             return res.status(403).json({
                 ok: false,
                 message: "Unauthorized",
             });
         }
 
+        const creator = await User.findById(course.creator_id, {
+            name: 1,
+            email: 1,
+        })
+            .lean()
+            .exec();
+
         return res.status(200).json({
             ok: true,
-            course,
+            course: {
+                ...course._doc,
+                creator,
+            },
         });
     } catch (error) {
         console.log(error);

@@ -9,8 +9,6 @@ const isTeacher = async (req, res, next) => {
         constants.roles.TEACHER,
     ];
 
-    console.log(req.user.role);
-
     if (!authorizedRoles.includes(req.user.role)) {
         return res.status(401).json({
             message: "Unauthorized",
