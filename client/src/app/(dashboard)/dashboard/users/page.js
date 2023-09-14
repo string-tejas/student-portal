@@ -104,6 +104,7 @@ const Page = () => {
                     className="md:w-full"
                     data={users}
                     loading={loading}
+                    fetchUsers={fetchUsers}
                 />
             </section>
         </main>

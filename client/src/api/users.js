@@ -25,3 +25,21 @@ export const getUsers = async (page, limit, role = "") => {
         };
     }
 };
+
+export const deleteUser = async (token, id) => {
+    try {
+        const response = await api.delete("/users/" + id, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return {
+            ...error.response.data,
+            ok: false,
+        };
+    }
+};
