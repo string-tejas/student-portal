@@ -14,6 +14,7 @@ export const GlobalProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        console.log("Global.js", token);
         if (token) {
             getUser(token).then((result) => {
                 if (result?.ok) {

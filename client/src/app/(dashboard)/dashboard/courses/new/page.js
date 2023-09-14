@@ -4,6 +4,7 @@ import React from "react";
 import NewCourseForm from "./new-course-form";
 import { useGlobalContext } from "@/context/global";
 import { GlobalActions } from "@/context/globalReducer";
+import { createCourse } from "@/api/courses";
 
 const initialFormData = {
     name: "",
@@ -17,8 +18,13 @@ const initialFormData = {
 
 const Page = () => {
     const { state, dispatch } = useGlobalContext();
-    const onFormSubmit = async (values, setErrors) => {
-        console.log(values);
+
+    const onFormSubmit = async (values, setErrors, resetForm) => {
+        const subObj = {
+            ...values,
+            course_img: "/images/geometric-shapes-pattern.jpg",
+        };
+        console.log(subObj);
         if (!values.batch) {
             dispatch({
                 type: GlobalActions.SET_TOAST,
@@ -29,7 +35,32 @@ const Page = () => {
             });
             return;
         }
+
+        const response = await createCourse(
+            localStorage.getItem("token"),
+            subObj
+        );
+        if (response.ok) {
+            dispatch({
+                type: GlobalActions.SET_TOAST,
+                payload: {
+                    message: "Course created successfully",
+                    type: "success",
+                },
+            });
+
+            resetForm();
+        } else {
+            dispatch({
+                type: GlobalActions.SET_TOAST,
+                payload: {
+                    message: response.message,
+                    type: "error",
+                },
+            });
+        }
     };
+
     return (
         <div>
             <BreadCrumbs />

@@ -37,7 +37,10 @@ const UserTable = ({
     const doDeleteUser = async () => {
         if (!selectedUser) return;
         setDelLoading(true);
-        const res = await deleteUser(state.token, selectedUser._id);
+        const res = await deleteUser(
+            localStorage.getItem("token"),
+            selectedUser._id
+        );
         setDelLoading(false);
         console.log(res);
         setOpenModal(false);
