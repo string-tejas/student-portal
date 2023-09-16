@@ -1,7 +1,7 @@
 "use client";
 import { getCourses } from "@/api/courses";
 import BreadCrumbs from "@/components/BreadCrumbs";
-import CourseCard from "@/components/CourseCard";
+import CourseCard, { CourseCardLoading } from "@/components/CourseCard";
 import SearchBar from "@/components/SearchBar";
 import { useGlobalContext } from "@/context/global";
 import { GlobalActions } from "@/context/globalReducer";
@@ -35,7 +35,9 @@ const Page = () => {
                     }
                 })
                 .finally(() => {
-                    setLoading(false);
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 500);
                 });
         }
     }, []);
@@ -54,13 +56,19 @@ const Page = () => {
             </div>
 
             <div className="flex flex-wrap justify-start gap-x-6 gap-y-4 mt-6 items-center">
-                {loading
-                    ? "Loading..."
-                    : state.courses?.map((course) => (
-                          <Link href={`/dashboard/courses/${course.code}`}>
-                              <CourseCard course={course} />
-                          </Link>
-                      ))}
+                {loading ? (
+                    <>
+                        <CourseCardLoading />
+                        <CourseCardLoading />
+                        <CourseCardLoading />
+                    </>
+                ) : (
+                    state.courses?.map((course) => (
+                        <Link href={`/dashboard/courses/${course.code}`}>
+                            <CourseCard course={course} />
+                        </Link>
+                    ))
+                )}
             </div>
         </div>
     );
