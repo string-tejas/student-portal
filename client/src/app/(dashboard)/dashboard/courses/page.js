@@ -64,7 +64,10 @@ const Page = () => {
                     </>
                 ) : (
                     state.courses?.map((course) => (
-                        <Link href={`/dashboard/courses/${course.code}`}>
+                        <Link
+                            key={course._id}
+                            href={`/dashboard/courses/${course.code}`}
+                        >
                             <CourseCard course={course} />
                         </Link>
                     ))

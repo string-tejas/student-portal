@@ -45,12 +45,12 @@ const page = () => {
     return (
         <div className="px-2 pt-1">
             <BreadCrumbs />
-            <h1 className="mt-3 md:mt-6 text-3xl font-semibold">
+            <h1 className="mt-3 md:mt-6 text-2xl md:text-3xl font-semibold">
                 {course.name}
             </h1>
-            <div className="md:grid md:grid-cols-9 gap-x-3">
-                <div className="md:col-span-7">
-                    <p className="text-gray-400 text-base mt-1">
+            <div className="md:grid md:grid-cols-9 gap-x-3 md:pr-6">
+                <div className="md:col-span-8">
+                    <p className="text-gray-400 text-xs md:text-base mt-1">
                         {course.description}
                         <br />
                         <br />
@@ -60,7 +60,7 @@ const page = () => {
                 </div>
                 <img
                     src={course.course_img}
-                    className="w-[240px] rounded-lg"
+                    className="w-5/6 mt-2 md:mt-0 md:w-[140px] md:col-span-1 justify-self-end rounded-lg"
                     alt="course image"
                 />
                 <div className="flex gap-3 mt-4 flex-wrap md:col-span-7">
@@ -84,20 +84,22 @@ const page = () => {
                         Updated {moment(course.updatedAt).fromNow()}
                     </div>
                 </div>
-                <div className="flex ml-auto mt-4 items-center justify-center gap-3">
+                <div className="md:col-span-2 flex md:ml-auto mt-4 items-center justify-start md:justify-end gap-3">
                     <button className="text-gray-400 font-semibold hover:text-blue-500 flex items-center gap-1">
                         <BiEditAlt className="text-lg" />
-                        <span className="hidden md:block">Edit</span>
+                        <span className="">Edit</span>
                     </button>
                     <button className="text-gray-400 font-semibold hover:text-red-500 flex items-center gap-1">
                         <BiTrash className="text-lg" />
-                        <span className="hidden md:block">Delete</span>
+                        <span className="">Delete</span>
                     </button>
                 </div>
             </div>
 
             <div className="mt-2 md:mt-8">
-                <h1 className="text-2xl font-semibold mb-3">Assignments</h1>
+                <h1 className="text-xl md:text-2xl font-semibold mb-3">
+                    Assignments
+                </h1>
                 <div>No Assignments yet</div>
             </div>
         </div>
