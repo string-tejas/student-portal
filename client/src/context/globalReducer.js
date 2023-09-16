@@ -4,6 +4,9 @@ const initialState = {
     user: null,
     token: null,
     courses: null,
+    sevaCategories: null,
+    sevaSelectedCategory: null,
+    sevaCourses: null,
     toast: {
         message: "",
         type: "",
@@ -16,6 +19,10 @@ export const GlobalActions = {
     SET_TOKEN: "SET_TOKEN",
     SET_TOAST: "SET_TOAST",
     SET_COURSES: "SET_COURSES",
+    SET_SEVA_CATEGORIES: "SET_SEVA_CATEGORIES",
+    SET_SEVA_SELECTED_CATEGORY: "SET_SEVA_SELECTED_CATEGORY",
+    SET_SEVA_COURSES: "SET_SEVA_COURSES",
+    RESET_SEVA_SELECTED_CATEGORY: "RESET_SEVA_SELECTED_CATEGORY",
 };
 
 const globalReducer = (state, action) => {
@@ -44,6 +51,30 @@ const globalReducer = (state, action) => {
             return {
                 ...state,
                 courses: action.payload,
+            };
+
+        case GlobalActions.SET_SEVA_CATEGORIES:
+            return {
+                ...state,
+                sevaCategories: action.payload,
+            };
+        case GlobalActions.SET_SEVA_SELECTED_CATEGORY:
+            return {
+                ...state,
+                sevaSelectedCategory: action.payload,
+            };
+
+        case GlobalActions.SET_SEVA_COURSES:
+            return {
+                ...state,
+                sevaCourses: action.payload,
+            };
+
+        case GlobalActions.RESET_SEVA_SELECTED_CATEGORY:
+            return {
+                ...state,
+                sevaSelectedCategory: null,
+                sevaCourses: null,
             };
 
         default:
