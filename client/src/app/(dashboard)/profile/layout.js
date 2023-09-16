@@ -8,11 +8,6 @@ import {
     PiNumberCircleTwo,
 } from "react-icons/pi";
 
-export const metadata = {
-    title: "Complete your profile",
-    description: "Complete your profile to continue",
-};
-
 const Layout = ({ children }) => {
     const pathname = usePathname();
 
