@@ -26,10 +26,8 @@ const globalReducer = (state, action) => {
                 user: action.payload,
             };
         case GlobalActions.LOGOUT:
-            return {
-                ...state,
-                user: null,
-            };
+            return initialState;
+
         case GlobalActions.SET_TOKEN:
             return {
                 ...state,

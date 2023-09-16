@@ -67,6 +67,9 @@ const UserTable = ({
             <Table.Td>
                 <div className="animate-pulse h-5 w-full bg-gray-700 rounded-sm" />
             </Table.Td>
+            <Table.Td>
+                <div className="animate-pulse h-5 w-full bg-gray-700 rounded-sm" />
+            </Table.Td>
             <Table.Td className="flex items-center gap-3">
                 <div className="animate-pulse h-5 w-full bg-gray-700 rounded-sm" />
                 <div className="animate-pulse h-5 w-full bg-gray-700 rounded-sm" />
