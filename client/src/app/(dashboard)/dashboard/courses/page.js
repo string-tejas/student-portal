@@ -62,6 +62,10 @@ const Page = () => {
                         <CourseCardLoading />
                         <CourseCardLoading />
                     </>
+                ) : state.courses?.length === 0 ? (
+                    <div className="text-lg text-gray-500">
+                        Any courses you create will appear here
+                    </div>
                 ) : (
                     state.courses?.map((course) => (
                         <Link

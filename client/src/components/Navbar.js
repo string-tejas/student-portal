@@ -3,22 +3,26 @@
 import { useGlobalContext } from "@/context/global";
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { CgMenuLeftAlt } from "react-icons/cg";
 import { BiLogOut } from "react-icons/bi";
+import { GlobalActions } from "@/context/globalReducer";
 
 const noNavbar = ["/login", "/forgot-password"];
 
 const Navbar = ({ onHamburgerClick = () => {} }) => {
     const pathname = usePathname();
-    const { state } = useGlobalContext();
+    const { state, dispatch } = useGlobalContext();
 
     if (noNavbar.includes(pathname)) return null;
 
     const onLogout = () => {
         localStorage.removeItem("token");
-        window.location.reload();
+        dispatch({
+            type: GlobalActions.LOGOUT,
+        });
+        redirect("/login");
     };
 
     return (

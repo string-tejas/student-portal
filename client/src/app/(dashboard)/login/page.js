@@ -4,6 +4,7 @@ import Form from "./form";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "@/context/global";
 import { GlobalActions } from "@/context/globalReducer";
+import users from "@/utils/users";
 
 const loginFormInitialState = {
     email: "",
@@ -33,6 +34,12 @@ const Login = () => {
             setErrors({});
 
             console.log(result);
+            if (
+                result.user?.role === users.STUDENT &&
+                !result.user?.profile_completed
+            ) {
+                router.push("/profile");
+            }
             router.push("/dashboard");
         } else {
             console.log("Login failed");

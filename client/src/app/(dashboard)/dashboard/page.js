@@ -9,7 +9,7 @@ const Dashboard = () => {
     if (state.user.role === "teacher") {
         return <Teacher />;
     } else if (state.user.role === "student") {
-        return <div>Welcome Email Password Peeper 🤥</div>;
+        return <div>Welcome Student</div>;
     }
 
     return <div>Dashboard</div>;

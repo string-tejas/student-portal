@@ -49,6 +49,11 @@ const Page = () => {
                 },
             });
 
+            dispatch({
+                type: GlobalActions.SET_COURSES,
+                payload: null,
+            });
+
             resetValues();
         } else {
             dispatch({

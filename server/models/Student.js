@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
-import { gender } from "../util/constants";
+import constants from "../util/constants.js";
+
+const gender = constants.gender;
 
 const studentSchema = new mongoose.Schema({
     user_account_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true,
     },
 
     name: {
@@ -32,15 +35,15 @@ const studentSchema = new mongoose.Schema({
         type: Date,
     },
 
-    roll: {
-        type: string,
-        required: true,
+    roll_number: {
+        type: String,
         trim: true,
-        uniquie: true,
+        unique: true,
+        required: true,
     },
 
     gender: {
-        type: string,
+        type: String,
         enum: [gender.MALE, gender.FEMALE, gender.OTHER],
     },
 

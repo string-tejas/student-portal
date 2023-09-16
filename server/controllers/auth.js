@@ -1,3 +1,4 @@
+import Student from "../models/Student.js";
 import User from "../models/User.js";
 import compareHash from "../util/compareHash.js";
 import convertToSafeUser from "../util/convertToSafeUser.js";
@@ -73,7 +74,14 @@ export const logout = async (req, res) => {
 
 export const register = async (req, res) => {
     try {
-        const { name, email, password, is_student = false, role } = req.body;
+        const {
+            name,
+            email,
+            password,
+            is_student = false,
+            role,
+            roll_number,
+        } = req.body;
 
         const newUser = {
             name,
@@ -103,9 +111,35 @@ export const register = async (req, res) => {
             });
         }
 
+        if (is_student && !roll_number) {
+            return res.status(400).json({
+                message: "Roll number required",
+                field: "roll_number",
+                ok: false,
+            });
+        }
+
+        if (is_student && (await checkIfRollNoExists(roll_number))) {
+            return res.status(400).json({
+                message: "Roll number already exists",
+                field: "roll_number",
+                ok: false,
+            });
+        }
+
+        if (is_student) {
+            newUser.roll_number = roll_number;
+        }
+
         const user = await User.create(newUser);
 
         console.log("User created");
+
+        if (is_student) {
+            await createStudent(user, roll_number);
+            console.log("Student created");
+        }
+
         console.log("Invoking sendEmail remote procedure");
 
         await sendEmail(
@@ -124,5 +158,37 @@ export const register = async (req, res) => {
             message: "Server Error",
             ok: false,
         });
+    }
+};
+
+const checkIfRollNoExists = async (roll_number) => {
+    try {
+        const student = await Student.findOne({ roll_number });
+
+        if (student) {
+            return true;
+        }
+
+        return false;
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
+};
+
+const createStudent = async (user, roll_number) => {
+    try {
+        const student = new Student({
+            user_account_id: user._id,
+            name: user.name,
+            roll_number,
+        });
+
+        await student.save();
+
+        return student;
+    } catch (error) {
+        console.log(error);
+        return null;
     }
 };

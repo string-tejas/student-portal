@@ -5,6 +5,7 @@ import Spinner from "@/components/Spinner";
 import Table from "@/components/Table";
 import { useGlobalContext } from "@/context/global";
 import { GlobalActions } from "@/context/globalReducer";
+import moment from "moment";
 import { useState } from "react";
 import { BiEditAlt, BiTrash } from "react-icons/bi";
 
@@ -81,6 +82,7 @@ const UserTable = ({
                         <Table.Th>User</Table.Th>
                         <Table.Th>Email</Table.Th>
                         <Table.Th>Role</Table.Th>
+                        <Table.Th>Roll</Table.Th>
                         <Table.Th>Profile</Table.Th>
                         <Table.Th>Created At</Table.Th>
                         <Table.Th>Actions</Table.Th>
@@ -118,6 +120,9 @@ const UserTable = ({
                                     {user.role}
                                 </Table.Td>
                                 <Table.Td>
+                                    {user?.is_student ? user?.roll_number : "-"}
+                                </Table.Td>
+                                <Table.Td>
                                     {user.is_student
                                         ? user.profile_completed
                                             ? "Yes"
@@ -125,9 +130,9 @@ const UserTable = ({
                                         : "Yes"}
                                 </Table.Td>
                                 <Table.Td>
-                                    {new Date(
-                                        user.createdAt
-                                    ).toLocaleDateString()}
+                                    {moment(user.createdAt).format(
+                                        "Do MMM YYYY"
+                                    )}
                                 </Table.Td>
                                 <Table.Td className="flex gap-3">
                                     <button

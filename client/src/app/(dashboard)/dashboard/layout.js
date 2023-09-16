@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Toast from "@/components/Toast";
+import users from "@/utils/users";
 
 const Layout = ({ children }) => {
     const { state } = useGlobalContext();
@@ -14,6 +15,11 @@ const Layout = ({ children }) => {
 
     if (!state.user) {
         router.push("/login");
+        return null;
+    }
+
+    if (state.user.role === users.STUDENT && !state.user.profile_completed) {
+        router.push("/profile");
         return null;
     }
 

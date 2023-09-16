@@ -18,6 +18,7 @@ const initalState = {
     role: filterUserDropdown.find((user) => user.value === users.STUDENT),
     is_student: true,
     profile_completed: false,
+    roll_number: "",
 };
 
 const UserForm = ({ update = false, user = {}, onSubmit = async () => {} }) => {
@@ -110,22 +111,45 @@ const UserForm = ({ update = false, user = {}, onSubmit = async () => {} }) => {
                 />
             </div>
 
-            <div className="md:col-span-6 flex flex-col gap-[4px]">
-                <label className="text-sm ml-1 flex" htmlFor="role">
-                    Select role
-                    {errors?.role && (
-                        <span className="text-red-500 text-xs ml-auto">
-                            {errors?.role}
-                        </span>
-                    )}
-                </label>
-                <DropDown
-                    value={values?.role}
-                    setValue={(value) =>
-                        handleChange({ target: { name: "role", value } })
-                    }
-                    list={userTypes}
-                />
+            <div className="md:col-span-6 flex items-center gap-3">
+                <div className="flex flex-col gap-[4px]">
+                    <label className="text-sm ml-1 flex" htmlFor="role">
+                        Select role
+                        {errors?.role && (
+                            <span className="text-red-500 text-xs ml-auto">
+                                {errors?.role}
+                            </span>
+                        )}
+                    </label>
+                    <DropDown
+                        value={values?.role}
+                        setValue={(value) =>
+                            handleChange({ target: { name: "role", value } })
+                        }
+                        list={userTypes}
+                    />
+                </div>
+                {values?.role?.value === users.STUDENT && (
+                    <div className="flex flex-col gap-[4px] flex-1">
+                        <label className="text-sm ml-1 flex" htmlFor="role">
+                            Roll Number
+                            {errors?.role && (
+                                <span className="text-red-500 text-xs ml-auto">
+                                    {errors?.role}
+                                </span>
+                            )}
+                        </label>
+                        <input
+                            className="border border-gray-500 outline-none w-full bg-gray-700 focus:border-blue-600 rounded-md px-2 py-[6px]"
+                            autoComplete="off"
+                            type="text"
+                            name="roll_number"
+                            value={values?.roll_number}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                )}
             </div>
             <div className="md:col-span-6 flex flex-col gap-[4px]">
                 <label className="text-sm ml-1" htmlFor="password">

@@ -70,6 +70,18 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+
+        student_profile: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Student",
+            default: null,
+        },
+
+        roll_number: {
+            type: String,
+            trim: true,
+            default: null,
+        },
     },
     {
         timestamps: true,
