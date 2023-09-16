@@ -17,18 +17,18 @@ const Teacher = () => {
 
             <div className="col-span-12 md:col-span-2 flex flex-col gap-2 bg-gray-800 px-3 py-3 rounded-lg border border-gray-700">
                 <Link href="/dashboard/courses/new">
-                    <button className="bg-blue-900 w-full px-3 py-2 font-semibold rounded-lg flex items-center gap-2 hover:bg-blue-950 shadow-md hover:ring-2 text-sm">
+                    <button className="bg-gray-700 w-full px-3 py-2 font-semibold rounded-lg flex items-center gap-2 hover:bg-blue-700 shadow-md focus:ring-2 text-sm">
                         <BiPlus className="text-xl" />
                         New Course
                     </button>
                 </Link>
                 <Link href="/dashboard/courses">
-                    <button className="bg-blue-900 w-full px-3 py-2 font-semibold rounded-lg flex items-center gap-2 hover:bg-blue-950 shadow-md hover:ring-2 text-sm">
+                    <button className="bg-gray-700 w-full px-3 py-2 font-semibold rounded-lg flex items-center gap-2 hover:bg-blue-700 shadow-md focus:ring-2 text-sm">
                         <LuBookPlus className="text-xl" />
                         Manage Courses
                     </button>
                 </Link>
-                <button className="bg-blue-900 w-full px-3 py-2 font-semibold rounded-lg flex items-center gap-2 hover:bg-blue-950 shadow-md hover:ring-2 text-sm">
+                <button className="bg-gray-700 w-full px-3 py-2 font-semibold rounded-lg flex items-center gap-2 hover:bg-blue-700 shadow-md focus:ring-2 text-sm">
                     <PiStudentFill className="text-xl" />
                     Manage Students
                 </button>
