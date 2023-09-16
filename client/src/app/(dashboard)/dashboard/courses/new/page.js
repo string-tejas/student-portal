@@ -49,9 +49,7 @@ const Page = () => {
                 },
             });
 
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
+            resetValues();
         } else {
             dispatch({
                 type: GlobalActions.SET_TOAST,
@@ -67,7 +65,7 @@ const Page = () => {
         <div>
             <BreadCrumbs />
             <NewCourseForm
-                initalValues={initialFormData}
+                initialValues={initialFormData}
                 onSubmit={onFormSubmit}
             />
         </div>

@@ -24,7 +24,7 @@ const BreadCrumbs = () => {
     const paths = pathname?.split("/");
 
     return (
-        <div className="flex items-center gap-1 md:gap-3">
+        <div className="flex items-center md:gap-3">
             {paths?.map((path, index) => {
                 if (path === "") {
                     return null;
@@ -44,16 +44,15 @@ const BreadCrumbs = () => {
                 }
 
                 return (
-                    <>
+                    <span key={uuidv4()} className="flex items-center gap-1">
                         <BsChevronRight />
                         <Link
-                            key={uuidv4()}
                             href={makePath(paths, index)}
                             className=" text-xs md:text-sm  text-gray-300 hover:text-gray-50 rounded-md hover:underline capitalize"
                         >
                             {path?.replace(/-/g, " ")}
                         </Link>
-                    </>
+                    </span>
                 );
             })}
         </div>

@@ -21,8 +21,14 @@ const CourseCard = ({ course }) => {
                     <div className="px-2 py-1 text-xs text-white bg-blue-600 rounded-lg">
                         Batch {course.batch}
                     </div>
-                    <div className="px-2 py-1 text-xs text-white bg-blue-600 rounded-lg">
-                        {course.visiblity ? "Public" : "Private"}
+                    <div
+                        className={`${
+                            course?.visibility
+                                ? "bg-teal-600"
+                                : "border border-gray-600"
+                        } px-2 py-1 text-xs text-white rounded-lg`}
+                    >
+                        {course?.visibility ? "Public" : "Private"}
                     </div>
                 </div>
             </div>

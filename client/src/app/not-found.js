@@ -43,7 +43,7 @@ const NotFound = () => {
                 Go back to{" "}
                 <Link
                     href={"/"}
-                    className="bg-blue-600 hover:bg-blue-700 px-2 py-1 text-white focus:ring-4 mx-1 text-sm"
+                    className="bg-blue-600 rounded-md hover:bg-blue-700 px-2 py-1 text-white focus:ring-4 mx-1 text-sm"
                 >
                     Home
                 </Link>

@@ -6,6 +6,7 @@ import NoPage from "@/components/NoPage";
 import moment from "moment/moment";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { BiEditAlt, BiTrash } from "react-icons/bi";
 
 const page = () => {
     const { code } = useParams();
@@ -63,6 +64,15 @@ const page = () => {
                     alt="course image"
                 />
                 <div className="flex gap-3 mt-4 flex-wrap md:col-span-7">
+                    <div
+                        className={`${
+                            course?.visibility
+                                ? "bg-teal-600"
+                                : "border border-red-700 bg-red-800"
+                        } px-2 py-1 rounded-full text-xs font-light`}
+                    >
+                        {course?.visibility ? "Public" : "Private"}
+                    </div>
                     <div className="px-2 py-1 rounded-full bg-blue-700 text-xs font-light">
                         Batch of {course.batch}
                     </div>
@@ -75,11 +85,13 @@ const page = () => {
                     </div>
                 </div>
                 <div className="flex ml-auto mt-4 items-center justify-center gap-3">
-                    <button className="px-2 py-1 rounded-full bg-blue-700 text-xs font-light">
-                        Edit
+                    <button className="text-gray-400 font-semibold hover:text-blue-500 flex items-center gap-1">
+                        <BiEditAlt className="text-lg" />
+                        <span className="hidden md:block">Edit</span>
                     </button>
-                    <button className="px-2 py-1 rounded-full bg-blue-700 text-xs font-light">
-                        Delete
+                    <button className="text-gray-400 font-semibold hover:text-red-500 flex items-center gap-1">
+                        <BiTrash className="text-lg" />
+                        <span className="hidden md:block">Delete</span>
                     </button>
                 </div>
             </div>
