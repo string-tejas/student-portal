@@ -1,7 +1,11 @@
 import React from "react";
-
+import ProfileFormThree from "./profile-form-3";
 const page = () => {
-    return <div>form3</div>;
+    return (
+        <>
+            <ProfileFormThree />
+        </>
+    )
 };
 
 export default page;

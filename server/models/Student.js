@@ -127,8 +127,16 @@ const studentSchema = new mongoose.Schema({
             type: String,
         },
     },
-
-    // add student year and type
+    college_details:{
+        year:{
+            type:String,
+        },
+        branch:{
+            type:String,
+            trim:true,
+        }
+    }
+    
 });
 
 const Student = mongoose.model("Student", studentSchema);
