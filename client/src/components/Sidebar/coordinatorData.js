@@ -19,12 +19,12 @@ const coordinatorData = [
         path: "/dashboard/seva-satva",
         icon: <GiFirePunch className={bigIconStyle} />,
     },
-    {
-        id: uuid(),
-        title: "HSS",
-        path: "/dashboard/hss",
-        icon: <TbSquareRoundedLetterH className={bigIconStyle} />,
-    },
+    // {
+    //     id: uuid(),
+    //     title: "HSS",
+    //     path: "/dashboard/hss",
+    //     icon: <TbSquareRoundedLetterH className={bigIconStyle} />,
+    // },
     {
         id: uuid(),
         title: "Courses",

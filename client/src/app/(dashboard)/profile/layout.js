@@ -1,6 +1,8 @@
 "use client";
+import { useGlobalContext } from "@/context/global";
+import users from "@/utils/users";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import {
     PiNumberCircleOne,
@@ -10,6 +12,24 @@ import {
 
 const Layout = ({ children }) => {
     const pathname = usePathname();
+    const router = useRouter();
+
+    const { state } = useGlobalContext();
+
+    if (!state.user) {
+        router.push("/login");
+        return null;
+    }
+
+    if (state.user.role !== users.STUDENT) {
+        router.push("/dashboard");
+        return null;
+    }
+
+    if (state.user.role === users.STUDENT && state.user.profile_completed) {
+        router.push("/dashboard");
+        return null;
+    }
 
     return (
         <section className="container max-w-3xl h-screen overflow-auto pt-3 md:pt-8 px-3 mx-auto">
@@ -23,7 +43,12 @@ const Layout = ({ children }) => {
             <div className="flex items-center px-2 md:px-24 mt-8 gap-3">
                 <Link href="/profile/1">
                     <PiNumberCircleOne
-                        className={"text-green-600 text-[40px] "}
+                        className={
+                            "text-[40px] " +
+                            (pathname === "/profile"
+                                ? "text-gray-400"
+                                : "text-green-600")
+                        }
                     />
                 </Link>
 

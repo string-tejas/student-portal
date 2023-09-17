@@ -51,6 +51,12 @@ const courseSchema = new mongoose.Schema(
                 ref: "Exam",
             },
         ],
+        participants: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Student",
+            },
+        ],
     },
     {
         timestamps: true,
