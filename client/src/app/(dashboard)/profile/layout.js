@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
     }
 
     return (
-        <section className="container max-w-3xl h-screen overflow-auto pt-3 md:pt-8 px-3 mx-auto">
+        <section className="container max-w-3xl h-screen  overflow-auto pt-3 md:pt-8 px-3 mx-auto">
             <h1 className="text-xl md:text-4xl text-white font-semibold ">
                 Profile setup
             </h1>

@@ -16,6 +16,13 @@
   }
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #111827;
+}
+
 #tsparticles {
   z-index: -1;
   position: fixed;
@@ -35,3 +42,25 @@
     )
     rgb(var(--background-start-rgb));
 } */
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #0e172a;
+  border: 1px solid #192132;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #202738;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #22345f;
+}

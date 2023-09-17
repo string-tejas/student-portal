@@ -1,6 +1,7 @@
+import SubmitButton from "@/components/SubmitButton";
 import React from "react";
 
-const ProfileFormOne = () => {
+const ProfileFormOne = ({ onLogout }) => {
     return (
         <form>
             <h1 className="text-lg md:text-2xl font-bold">
@@ -183,6 +184,15 @@ const ProfileFormOne = () => {
                         autoComplete="off"
                     />
                 </div>
+            </div>
+            <div className="w-full flex items-center justify-center gap-4 mt-6 pb-6">
+                <SubmitButton
+                    onClick={onLogout}
+                    className="bg-gray-800 border border-gray-600 hover:bg-gray-700"
+                >
+                    Logout
+                </SubmitButton>
+                <SubmitButton>Continue</SubmitButton>
             </div>
         </form>
     );
