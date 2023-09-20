@@ -3,7 +3,10 @@ import { getSingleCourse } from "@/api/courses";
 import Loading from "@/app/(dashboard)/loading";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import NoPage from "@/components/NoPage";
+import { useGlobalContext } from "@/context/global";
+import { GlobalActions } from "@/context/globalReducer";
 import moment from "moment/moment";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BiEditAlt, BiPlus, BiTrash } from "react-icons/bi";
@@ -12,6 +15,7 @@ const page = () => {
     const { code } = useParams();
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { dispatch } = useGlobalContext();
 
     if (!code) {
         return <NoPage />;
@@ -25,8 +29,15 @@ const page = () => {
                 if (res.ok) {
                     console.log(res);
                     setCourse(res.course);
+                    dispatch({
+                        type: GlobalActions.SET_CURRENT_COURSE,
+                        payload: res.course,
+                    });
                 } else {
                     setCourse(null);
+                    dispatch({
+                        type: GlobalActions.RESET_CURRENT_COURSE,
+                    });
                 }
             })
             .finally(() => {
@@ -101,10 +112,15 @@ const page = () => {
                     <h1 className="text-xl flex md:text-2xl font-semibold mb-3">
                         Assignments
                     </h1>
-                    <button className="text-gray-400 ml-auto mr-2 font-semibold hover:text-green-500 flex items-center gap-1">
-                        <BiPlus className="text-lg" />
-                        <span className="">Add</span>
-                    </button>
+                    <Link
+                        className="ml-auto mr-2"
+                        href={`/dashboard/courses/${code}/new-assignment`}
+                    >
+                        <button className="text-gray-400 font-semibold hover:text-green-500 flex items-center gap-1">
+                            <BiPlus className="text-lg" />
+                            <span className="">Add</span>
+                        </button>
+                    </Link>
                 </div>
                 <div>No Assignments yet</div>
             </div>
