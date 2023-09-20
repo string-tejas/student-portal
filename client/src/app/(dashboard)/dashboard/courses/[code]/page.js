@@ -6,7 +6,7 @@ import NoPage from "@/components/NoPage";
 import moment from "moment/moment";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { BiEditAlt, BiTrash } from "react-icons/bi";
+import { BiEditAlt, BiPlus, BiTrash } from "react-icons/bi";
 
 const page = () => {
     const { code } = useParams();
@@ -97,9 +97,15 @@ const page = () => {
             </div>
 
             <div className="mt-2 md:mt-8">
-                <h1 className="text-xl md:text-2xl font-semibold mb-3">
-                    Assignments
-                </h1>
+                <div className="flex items-center">
+                    <h1 className="text-xl flex md:text-2xl font-semibold mb-3">
+                        Assignments
+                    </h1>
+                    <button className="text-gray-400 ml-auto mr-2 font-semibold hover:text-green-500 flex items-center gap-1">
+                        <BiPlus className="text-lg" />
+                        <span className="">Add</span>
+                    </button>
+                </div>
                 <div>No Assignments yet</div>
             </div>
         </div>
