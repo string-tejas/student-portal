@@ -1,4 +1,5 @@
 "use client";
+import Toast from "@/components/Toast";
 import { useGlobalContext } from "@/context/global";
 import users from "@/utils/users";
 import Link from "next/link";
@@ -80,6 +81,7 @@ const Layout = ({ children }) => {
                 </div>
                 <div className="mt-4">{children}</div>
             </section>
+            <Toast />
         </main>
     );
 };

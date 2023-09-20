@@ -30,6 +30,10 @@ const studentSchema = new mongoose.Schema({
     phone: {
         type: String,
     },
+    email: {
+        type: String,
+        trim: true,
+    },
 
     birthdate: {
         type: Date,
@@ -127,16 +131,24 @@ const studentSchema = new mongoose.Schema({
             type: String,
         },
     },
-    college_details:{
-        year:{
-            type:String,
+    college_details: {
+        branch: {
+            type: String,
+            trim: true,
         },
-        branch:{
-            type:String,
-            trim:true,
-        }
-    }
-    
+        passout_year: {
+            type: String,
+        },
+        academic_year: {
+            type: String,
+        },
+        cgpa: {
+            type: Number,
+        },
+        sem: {
+            type: String,
+        },
+    },
 });
 
 const Student = mongoose.model("Student", studentSchema);

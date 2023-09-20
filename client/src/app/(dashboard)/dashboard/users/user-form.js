@@ -133,9 +133,9 @@ const UserForm = ({ update = false, user = {}, onSubmit = async () => {} }) => {
                     <div className="flex flex-col gap-[4px] flex-1">
                         <label className="text-sm ml-1 flex" htmlFor="role">
                             Roll Number
-                            {errors?.role && (
+                            {errors?.roll_number && (
                                 <span className="text-red-500 text-xs ml-auto">
-                                    {errors?.role}
+                                    {errors?.roll_number}
                                 </span>
                             )}
                         </label>

@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-
+import Student from "../models/Student.js";
 export const getUsers = async (req, res) => {
     try {
         // get page and limit query params
@@ -62,7 +62,19 @@ export const deleteUser = async (req, res) => {
         const { id } = req.params;
 
         // find user by id and delete
-        const user = await User.findByIdAndDelete(id);
+
+        const user = await User.findById(id);
+
+        if (user.is_student) {
+            const student = await Student.findOneAndRemove(
+                {
+                    user_account_id: id,
+                },
+                { useFindAndModify: false }
+            );
+        }
+
+        await User.findByIdAndDelete(id);
 
         if (!user) {
             return res.status(404).json({
