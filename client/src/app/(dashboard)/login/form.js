@@ -16,7 +16,7 @@ const Form = ({ initialValues, onSubmit }) => {
                     className="flex items-center mb-6 text-2xl font-semibold text-white"
                 >
                     <h1 className="text-2xl md:text-4xl font-bold">
-                        Student <span className="text-blue-500">Portal</span>
+                        Assign<span className="text-blue-500">Ease</span>
                     </h1>
                 </Link>
                 <div className="w-full rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">

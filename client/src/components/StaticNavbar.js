@@ -12,7 +12,7 @@ const StaticNavbar = () => {
             />
             <Link href="/">
                 <h1 className="text-md md:text-xl font-bold">
-                    Student <span className="text-blue-500">Portal</span>
+                    Assign<span className="text-blue-500">Ease</span>
                 </h1>
             </Link>
 

@@ -13,8 +13,10 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body className={`${inter.className} bg-dark-blue text-white`}>
-                <StaticNavbar />
-                {children}
+                <div className="h-screen  overflow-auto">
+                    <StaticNavbar />
+                    {children}
+                </div>
             </body>
         </html>
     );

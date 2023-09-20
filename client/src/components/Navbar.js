@@ -46,7 +46,7 @@ const Navbar = ({ onHamburgerClick = () => {} }) => {
             )}
             <Link href="/dashboard">
                 <h1 className="text-md md:text-xl font-bold">
-                    Student <span className="text-blue-500">Portal</span>
+                    Assign<span className="text-blue-500">Ease</span>
                 </h1>
             </Link>
             {!state.user ? (

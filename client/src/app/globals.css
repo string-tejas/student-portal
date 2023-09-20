@@ -50,14 +50,15 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #0e172a;
+  background: #102043;
   border: 1px solid #192132;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #202738;
+  background: #173376;
   border-radius: 5px;
+  border: 1px solid #00287e;
 }
 
 /* Handle on hover */
