@@ -115,11 +115,14 @@ const page = () => {
                     <Link
                         className="ml-auto mr-2"
                         href={`/dashboard/courses/${code}/new-assignment`}
-                    >
+                    >   
+
+                    <Link href='/dashboard/courses/citl-2025/new-assignment'>
                         <button className="text-gray-400 font-semibold hover:text-green-500 flex items-center gap-1">
                             <BiPlus className="text-lg" />
                             <span className="">Add</span>
                         </button>
+                    </Link>
                     </Link>
                 </div>
                 <div>No Assignments yet</div>
