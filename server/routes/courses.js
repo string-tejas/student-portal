@@ -8,6 +8,10 @@ import {
     getCourse,
     updateCourse,
 } from "../controllers/courses.js";
+import {
+    createAssignment,
+    getAllAssignmentsForCourse,
+} from "../controllers/assignment.js";
 
 const router = Router();
 
@@ -25,5 +29,18 @@ router.put("/:id", isLoggedIn, isTeacher, updateCourse);
 
 // Delete a course
 router.delete("/:id", isLoggedIn, isTeacher, deleteCourse);
+
+/// * for assignment
+
+// Create an assignment
+router.post("/assignments", isLoggedIn, isTeacher, createAssignment);
+
+// get all assignments for a course
+router.get(
+    "/assignments/:course_id",
+    // isLoggedIn,
+    // isTeacher,
+    getAllAssignmentsForCourse
+);
 
 export default router;

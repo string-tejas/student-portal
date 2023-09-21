@@ -101,15 +101,15 @@ export const register = async (req, res) => {
             });
         }
 
-        const validEmail = await isEmailValid(email);
+        // const validEmail = await isEmailValid(email);
 
-        if (!validEmail) {
-            return res.status(400).json({
-                message: "Invalid email",
-                field: "email",
-                ok: false,
-            });
-        }
+        // if (!validEmail) {
+        //     return res.status(400).json({
+        //         message: "Invalid email",
+        //         field: "email",
+        //         ok: false,
+        //     });
+        // }
 
         if (is_student && !roll_number) {
             return res.status(400).json({

@@ -24,9 +24,25 @@ const assignmentSchema = new mongoose.Schema(
             type: Date,
         },
 
-        total_marks: {
-            type: Number,
+        // total marks =10
+        references: {
+            type: String,
         },
+        reference_img: {
+            type: String,
+        },
+
+        allow_submission: {
+            type: Boolean,
+            default: true,
+        },
+
+        submissions: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "AssignmentSubmission",
+            },
+        ],
     },
     {
         timestamps: true,

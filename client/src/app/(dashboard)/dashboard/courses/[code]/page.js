@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BiEditAlt, BiPlus, BiTrash } from "react-icons/bi";
+import AssignmentSection from "./assignment-section";
 
 const page = () => {
     const { code } = useParams();
@@ -108,24 +109,7 @@ const page = () => {
             </div>
 
             <div className="mt-2 md:mt-8">
-                <div className="flex items-center">
-                    <h1 className="text-xl flex md:text-2xl font-semibold mb-3">
-                        Assignments
-                    </h1>
-                    <Link
-                        className="ml-auto mr-2"
-                        href={`/dashboard/courses/${code}/new-assignment`}
-                    >   
-
-                    <Link href='/dashboard/courses/citl-2025/new-assignment'>
-                        <button className="text-gray-400 font-semibold hover:text-green-500 flex items-center gap-1">
-                            <BiPlus className="text-lg" />
-                            <span className="">Add</span>
-                        </button>
-                    </Link>
-                    </Link>
-                </div>
-                <div>No Assignments yet</div>
+                <AssignmentSection />
             </div>
         </div>
     );
