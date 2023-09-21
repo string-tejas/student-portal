@@ -4,6 +4,7 @@ import React from "react";
 import NewCourseForm from "./new-course-form";
 import { useGlobalContext } from "@/context/global";
 import { GlobalActions } from "@/context/globalReducer";
+import { createSevaCourse } from "@/api/seva";
 
 const initialFormData = {
     name: "",
@@ -24,15 +25,12 @@ const Page = () => {
             course_img: "/images/geometric-shapes-pattern.jpg",
         };
 
-        // const response = await createCourse(
-        //     localStorage.getItem("token"),
-        //     subObj
-        // );
+        const response = await createSevaCourse(
+            localStorage.getItem("token"),
+            subObj
+        );
 
-        const response = {
-            ok: true,
-            message: "Seva course queued for approval",
-        };
+        console.log(response);
 
         if (response.ok) {
             dispatch({

@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.js";
 import usersRoutes from "./routes/users.js";
 import coursesRoutes from "./routes/courses.js";
 import studentRoutes from "./routes/student.js";
+import sevaRoutes from "./routes/seva.js";
 // import servicesRoutes from "./routes/services.js";
 import connectDb from "./config/database.js";
 
@@ -33,6 +34,7 @@ app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/courses", coursesRoutes);
 app.use("/students", studentRoutes);
+app.use("/seva", sevaRoutes);
 // app.use("/services", servicesRoutes);
 
 app.listen(port, async () => {

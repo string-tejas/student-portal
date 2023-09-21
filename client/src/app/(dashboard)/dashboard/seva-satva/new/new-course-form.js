@@ -1,7 +1,18 @@
 import SubmitButton from "@/components/SubmitButton";
 import useForm from "@/hooks/useForm";
 import React from "react";
-import { v4 as uuid } from "uuid";
+
+const initialValues = {
+    name: "",
+    code: "",
+    intake: "",
+    batches: "",
+    description: "",
+    visibility: false,
+    course_img: "",
+    creator_id: "",
+    status: "",
+};
 
 const NewCourseForm = ({ initialValues, onSubmit = () => {} }) => {
     const { values, error, handleChange, handleSubmit } = useForm(
@@ -226,7 +237,11 @@ const NewCourseForm = ({ initialValues, onSubmit = () => {} }) => {
                         </div>
                     </div>
 
-                    <SubmitButton className="mt-4" type="submit">
+                    <SubmitButton
+                        className="mt-4"
+                        submitting={values?.submitting}
+                        type="submit"
+                    >
                         Submit for approval
                     </SubmitButton>
                 </form>

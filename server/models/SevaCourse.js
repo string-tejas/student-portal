@@ -40,6 +40,7 @@ const sevaCourseSchema = new mongoose.Schema(
         status: {
             type: String,
             enum: ["approved", "pending", "rejected", "not-available"],
+            default: "pending",
         },
 
         approvedBy: {

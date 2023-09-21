@@ -9,8 +9,13 @@ const sevaOptionFormSchema = new mongoose.Schema(
 
         preference: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "SevaCourse",
+                id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "SevaCourse",
+                },
+                name: {
+                    type: String,
+                },
             },
         ],
 
