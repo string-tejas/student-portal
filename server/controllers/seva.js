@@ -59,7 +59,7 @@ export const submitPreferenceForm = async (req, res) => {
             });
         });
 
-        // * single threded from here
+        // * single threaded code
         // const { preference } = req.body;
 
         // const user = req.user;
