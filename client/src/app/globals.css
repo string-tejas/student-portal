@@ -30,6 +30,20 @@ body {
 
 .not-found-img {
   width: 500px;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  padding: 2px 8px;
+  background-color: #2f3748;
+  border-radius: 4px;
+  color: #9eb5d4;
+}
+
+@media screen and (max-width: 768px) {
+  code {
+    padding: 1px 4px;
+  }
   
 }
 
@@ -46,6 +60,7 @@ body {
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 6px;
 }
 
 /* Track */
@@ -56,10 +71,11 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #173376;
+  background: #122553;
   border-radius: 5px;
-  border: 1px solid #00287e;
+  border: 1px solid #101727;
 }
+
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {

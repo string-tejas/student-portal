@@ -58,42 +58,6 @@ export const submitPreferenceForm = async (req, res) => {
                 ok: false,
             });
         });
-
-        // * single threaded code
-        // const { preference } = req.body;
-
-        // const user = req.user;
-        // const userId = user._id?.toString();
-
-        // if (!user || !user.profile_completed) {
-        //     return parentPort.postMessage({
-        //         message: "Profile not completed",
-        //         ok: false,
-        //     });
-        // }
-        // const student = await Student.findOne({
-        //     user_account_id: userId,
-        // });
-
-        // if (!student) {
-        //     return parentPort.postMessage({
-        //         message: "Student not found",
-        //         ok: false,
-        //     });
-        // }
-
-        // const sevaOptionForm = new SevaOptionForm({
-        //     student: student._id,
-        //     preference,
-        //     cgpa: student.cgpa,
-        // });
-
-        // await sevaOptionForm.save();
-
-        // res.json({
-        //     message: "Seva course added",
-        //     ok: true,
-        // });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ error: e, ok: false });
@@ -176,3 +140,38 @@ export const getSevaAllocation = async (req, res) => {
         return res.status(500).json({ error: e, ok: false });
     }
 };
+
+// const { preference } = req.body;
+
+// const user = req.user;
+// const userId = user._id?.toString();
+
+// if (!user || !user.profile_completed) {
+//     return parentPort.postMessage({
+//         message: "Profile not completed",
+//         ok: false,
+//     });
+// }
+// const student = await Student.findOne({
+//     user_account_id: userId,
+// });
+
+// if (!student) {
+//     return parentPort.postMessage({
+//         message: "Student not found",
+//         ok: false,
+//     });
+// }
+
+// const sevaOptionForm = new SevaOptionForm({
+//     student: student._id,
+//     preference,
+//     cgpa: student.cgpa,
+// });
+
+// await sevaOptionForm.save();
+
+// res.json({
+//     message: "Seva course added",
+//     ok: true,
+// });
