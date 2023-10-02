@@ -149,6 +149,20 @@ const studentSchema = new mongoose.Schema({
             type: String,
         },
     },
+
+    courses: [
+        {
+            course: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Course",
+            },
+            status: {
+                type: String,
+                enum: ["active", "inactive", "completed"],
+                default: "active",
+            },
+        },
+    ],
 });
 
 const Student = mongoose.model("Student", studentSchema);

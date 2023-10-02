@@ -198,3 +198,40 @@ export const deleteCourse = async (req, res) => {
         });
     }
 };
+
+export const getRecentCourses = async (req, res) => {
+    try {
+        const courses = await Course.find(
+            {
+                visibility: true,
+            },
+            {
+                name: 1,
+                code: 1,
+                creator_id: 1,
+                course_img: 1,
+                batch: 1,
+                description: 1,
+                createdAt: 1,
+            }
+        )
+            .populate("creator_id", {
+                name: 1,
+                email: 1,
+            })
+            .sort({ createdAt: -1 })
+            .limit(10)
+            .exec();
+
+        return res.status(200).json({
+            ok: true,
+            courses,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            message: "Internal server error",
+        });
+    }
+};

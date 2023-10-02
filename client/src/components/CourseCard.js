@@ -1,6 +1,9 @@
 import React from "react";
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, showCreator = false }) => {
+    if (course?.visibility === undefined) {
+        course.visibility = true;
+    }
     return (
         <div className="flex flex-col items-center border rounded-lg shadow md:flex-row md:max-w-xl  border-gray-700 bg-gray-800 hover:bg-gray-700">
             <img
@@ -21,15 +24,22 @@ const CourseCard = ({ course }) => {
                     <div className="px-2 py-1 text-xs text-white bg-blue-600 rounded-lg">
                         Batch {course.batch}
                     </div>
-                    <div
-                        className={`${
-                            course?.visibility
-                                ? "bg-teal-600"
-                                : "border border-gray-600"
-                        } px-2 py-1 text-xs text-white rounded-lg`}
-                    >
-                        {course?.visibility ? "Public" : "Private"}
-                    </div>
+                    {showCreator ? (
+                        <div className="px-2 py-1 text-xs text-white bg-cyan-800 rounded-lg">
+                            By {course?.creator_id?.name?.first}{" "}
+                            {course?.creator_id?.name?.last}
+                        </div>
+                    ) : (
+                        <div
+                            className={`${
+                                course?.visibility
+                                    ? "bg-teal-600"
+                                    : "border border-gray-600"
+                            } px-2 py-1 text-xs text-white rounded-lg`}
+                        >
+                            {course?.visibility ? "Public" : "Private"}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

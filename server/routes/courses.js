@@ -6,6 +6,7 @@ import {
     deleteCourse,
     getAllCourses,
     getCourse,
+    getRecentCourses,
     updateCourse,
 } from "../controllers/courses.js";
 import {
@@ -17,6 +18,9 @@ const router = Router();
 
 // Get all courses
 router.get("/", isLoggedIn, isTeacher, getAllCourses);
+
+// Get recent courses
+router.get("/recents", isLoggedIn, getRecentCourses);
 
 // Get a course
 router.get("/:id", isLoggedIn, isTeacher, getCourse);

@@ -95,3 +95,21 @@ export const getAllAssignmentsForCourse = async (token, course_id) => {
         };
     }
 };
+
+export const getRecentCourses = async (token) => {
+    try {
+        const res = await api.get("/courses/recents", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return res.data;
+    } catch (e) {
+        console.log(e);
+        return {
+            ...e.response.data,
+            ok: false,
+        };
+    }
+};

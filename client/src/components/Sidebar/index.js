@@ -3,6 +3,7 @@ import { useGlobalContext } from "@/context/global";
 import adminData from "./adminData";
 import teacherData from "./teacherData";
 import coordinatorData from "./coordinatorData";
+import studentData from "./studentData";
 import Link from "next/link";
 
 const Sidebar = ({ expanded }) => {
@@ -15,6 +16,8 @@ const Sidebar = ({ expanded }) => {
         data = teacherData;
     } else if (state.user?.role === "coordinator") {
         data = coordinatorData;
+    } else if (state.user?.role === "student") {
+        data = studentData;
     }
 
     return (

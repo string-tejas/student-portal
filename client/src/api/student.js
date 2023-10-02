@@ -33,3 +33,37 @@ export const partialSubmit3 = async (token, values) => {
         };
     }
 };
+
+export const getEnrolledCourses = async (token) => {
+    try {
+        const result = await api.get("/students/courses", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return result.data;
+    } catch (e) {
+        console.log(e);
+        return {
+            ...e.response.data,
+            ok: false,
+        };
+    }
+};
+
+export const getTeachersByStudent = async (token) => {
+    try {
+        const result = await api.get("/students/teachers", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return result.data;
+    } catch (e) {
+        console.log(e);
+        return {
+            ...e.response.data,
+            ok: false,
+        };
+    }
+};

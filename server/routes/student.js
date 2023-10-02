@@ -1,7 +1,12 @@
 import { Router } from "express";
 import isLoggedIn from "../middlewares/isLoggedIn.js";
 import isStudent from "../middlewares/isStudent.js";
-import { partialSubmit1, partialSubmit3 } from "../controllers/student.js";
+import {
+    getEnrolledCourses,
+    getTeachers,
+    partialSubmit1,
+    partialSubmit3,
+} from "../controllers/student.js";
 const router = Router();
 
 router.get("/", (req, res) => {
@@ -11,5 +16,9 @@ router.get("/", (req, res) => {
 router.post("/create/1", isLoggedIn, isStudent, partialSubmit1);
 
 router.post("/create/3", isLoggedIn, isStudent, partialSubmit3);
+
+router.get("/courses", isLoggedIn, isStudent, getEnrolledCourses);
+
+router.get("/teachers", isLoggedIn, isStudent, getTeachers);
 
 export default router;

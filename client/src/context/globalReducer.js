@@ -4,6 +4,8 @@ const initialState = {
     user: null,
     token: null,
     courses: null,
+    teachers: null,
+    enrolledCourses: null,
     sevaCategories: null,
     sevaSelectedCategory: null,
     sevaCourses: null,
@@ -26,6 +28,10 @@ export const GlobalActions = {
     RESET_SEVA_SELECTED_CATEGORY: "RESET_SEVA_SELECTED_CATEGORY",
     SET_CURRENT_COURSE: "SET_CURRENT_COURSE",
     RESET_CURRENT_COURSE: "RESET_CURRENT_COURSE",
+    SET_ENROLLED_COURSES: "SET_ENROLLED_COURSES",
+    ADD_ENROLLED_COURSE: "ADD_ENROLLED_COURSE",
+    RESET_ENROLLED_COURSES: "RESET_ENROLLED_COURSES",
+    SET_TEACHERS: "SET_TEACHERS",
 };
 
 const globalReducer = (state, action) => {
@@ -88,6 +94,33 @@ const globalReducer = (state, action) => {
             return {
                 ...state,
                 currentCourse: null,
+            };
+
+        case GlobalActions.SET_ENROLLED_COURSES:
+            return {
+                ...state,
+                enrolledCourses: action.payload,
+            };
+
+        case GlobalActions.ADD_ENROLLED_COURSE:
+            return {
+                ...state,
+                enrolledCourses: [
+                    ...state.enrolledCourses,
+                    action.payload,
+                ].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)),
+            };
+
+        case GlobalActions.RESET_ENROLLED_COURSES:
+            return {
+                ...state,
+                enrolledCourses: null,
+            };
+
+        case GlobalActions.SET_TEACHERS:
+            return {
+                ...state,
+                teachers: action.payload,
             };
 
         default:
