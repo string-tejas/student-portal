@@ -5,7 +5,7 @@ import { useState } from "react";
  * Custom hook to handle form state
  * @param {Object} initialValues Inital values for the form
  * @param {() => Promise<void>} callback Callback function to be called on form submission
- * @returns {Object} An object containing the following:
+ * @returns {{ handleChange: () => {}, values: Object, errors: Object, setSubmitting: () => {}, setErrors: () => {}, handleSubmit: () => {}}} An object containing the following:
  * - handleChange: Function to handle change in form values
  * - values: Current form values
  * - errors: Current form errors

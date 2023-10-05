@@ -67,3 +67,44 @@ export const getTeachersByStudent = async (token) => {
         };
     }
 };
+
+export const getSingleCourseByStudent = async (token, id) => {
+    try {
+        const result = await api.get(`/students/courses/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return result.data;
+    } catch (e) {
+        console.log(e);
+        return {
+            ...e.response.data,
+            ok: false,
+        };
+    }
+};
+
+export const enrollIntoCourse = async (token, id, key) => {
+    try {
+        const result = await api.post(
+            `/students/courses/enroll/${id}`,
+            {
+                enrollment_key: key,
+            },
+
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return result.data;
+    } catch (e) {
+        console.log(e);
+        return {
+            ...e.response.data,
+            ok: false,
+        };
+    }
+};
