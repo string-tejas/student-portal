@@ -42,8 +42,9 @@ const studentSchema = new mongoose.Schema({
     roll_number: {
         type: String,
         trim: true,
-        unique: true,
-        required: true,
+        // unique: true,
+        // required: true,
+        // sparse: true,
     },
 
     gender: {

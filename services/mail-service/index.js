@@ -3,6 +3,8 @@ require("dotenv").config();
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const sendEmail = require("./mail");
+const LamportClock = require("./lamport");
+const lamportClock = new LamportClock();
 
 const PROTO_PATH = __dirname + "/mail.proto";
 
@@ -19,10 +21,19 @@ const server = new grpc.Server();
 
 server.addService(mailProto.Mail.service, {
     sendEmail: async (call, callback) => {
-        const { to, subject, body } = call.request;
+        const { to, subject, body, time } = call.request;
         try {
             await sendEmail(to, subject, body);
-            callback(null, { success: true, message: "Email sent" });
+            if (time) {
+                lamportClock.updateTime(time);
+            } else {
+                lamportClock.tick();
+            }
+            callback(null, {
+                success: true,
+                message: "Email sent",
+                time: lamportClock.getTime(),
+            });
         } catch (error) {
             callback({ code: grpc.status.INTERNAL, details: error });
         }
@@ -40,5 +51,6 @@ server.bindAsync(
         console.log(
             `Mail service running at http://127.0.0.1:${process.env.PORT}`
         );
+        lamportClock.tick();
     }
 );

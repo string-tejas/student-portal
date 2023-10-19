@@ -80,7 +80,8 @@ const userSchema = new mongoose.Schema(
         roll_number: {
             type: String,
             trim: true,
-            default: null,
+            // default: null,
+            // sparse: true,
         },
     },
     {

@@ -2,17 +2,17 @@ syntax = "proto3";
 
 package mail;
 
-service Mail {
-    rpc sendEmail (EmailRequest) returns (EmailResponse);
-}
+service Mail { rpc sendEmail(EmailRequest) returns (EmailResponse); }
 
 message EmailRequest {
-    string to = 1;
-    string subject = 2;
-    string body = 3;
+  string to = 1;
+  string subject = 2;
+  string body = 3;
+  int32 time = 4;
 }
 
 message EmailResponse {
-    bool success = 1;
-    string message = 2;
+  bool success = 1;
+  string message = 2;
+  int32 time = 3;
 }

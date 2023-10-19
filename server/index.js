@@ -10,6 +10,9 @@ import studentRoutes from "./routes/student.js";
 import sevaRoutes from "./routes/seva.js";
 // import servicesRoutes from "./routes/services.js";
 import connectDb from "./config/database.js";
+import LamportClock from "./lamport.js";
+
+const lamportClock = new LamportClock();
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -30,6 +33,17 @@ app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 
+app.use((req, res, next) => {
+    if (req?.body?.time) {
+        const { time } = req.body;
+        lamportClock.updateTime(time);
+        next();
+    } else {
+        lamportClock.tick();
+        next();
+    }
+});
+
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/courses", coursesRoutes);
@@ -40,4 +54,7 @@ app.use("/seva", sevaRoutes);
 app.listen(port, async () => {
     console.log("Web server listening on port " + port);
     await connectDb();
+    lamportClock.tick();
 });
+
+export default lamportClock;
