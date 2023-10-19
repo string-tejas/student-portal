@@ -39,7 +39,6 @@ const RecentlyAddedCourse = () => {
         setLoading(true);
 
         const res = await getRecentCourses(localStorage.getItem("token"));
-        console.log(res);
 
         if (res.ok) {
             setRecentCourses(res.courses);
@@ -76,19 +75,20 @@ const EnrolledCourseSection = () => {
     const fetchCourses = async () => {
         setLoading(true);
         const res = await getEnrolledCourses(localStorage.getItem("token"));
+        console.log("Main fetch", res);
 
         if (res.ok) {
-            const activeCourses = res.courses.filter(
-                (course) => course.status === "active"
-            );
+            const activeCourses = res.courses
+                .filter((course) => course.status === "active")
+                .map((c) => c.course);
 
-            const inactiveCourses = res.courses.filter(
-                (course) => course.status === "inactive"
-            );
+            const inactiveCourses = res.courses
+                .filter((course) => course.status === "inactive")
+                .map((c) => c.course);
 
-            const completedCourses = res.courses.filter(
-                (course) => course.status === "completed"
-            );
+            const completedCourses = res.courses
+                .filter((course) => course.status === "completed")
+                .map((c) => c.course);
 
             const courseSegregated = {
                 activeCourses,
@@ -96,7 +96,7 @@ const EnrolledCourseSection = () => {
                 completedCourses,
             };
 
-            console.log(courseSegregated);
+            console.log("segregated courses", courseSegregated);
 
             dispatch({
                 type: GlobalActions.SET_ENROLLED_COURSES,
@@ -197,8 +197,8 @@ const HeadingAndCourseCards = ({
                 ) : (
                     courses?.map((course) => (
                         <Link
-                            key={course._id}
-                            href={`/dashboard/courses/${course.code}`}
+                            key={course?._id}
+                            href={`/dashboard/courses/${course?.code}`}
                         >
                             <CourseCard course={course} showCreator />
                         </Link>

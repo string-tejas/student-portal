@@ -1,4 +1,5 @@
 import Assignment from "../models/Assignment.js";
+import Course from "../models/Course.js";
 
 export const createAssignment = async (req, res) => {
     try {
@@ -14,6 +15,12 @@ export const createAssignment = async (req, res) => {
             course_id: req.body.course_id,
             creator_id: req.user._id,
         });
+
+        const course = await Course.findById(req.body.course_id);
+
+        course.assignments.push(assignment._id);
+
+        await course.save();
 
         res.status(201).json({ assignment, ok: true });
     } catch (e) {

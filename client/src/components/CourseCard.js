@@ -1,6 +1,7 @@
 import React from "react";
 
 const CourseCard = ({ course, showCreator = false }) => {
+    if (!course) return null;
     if (course?.visibility === undefined) {
         course.visibility = true;
     }

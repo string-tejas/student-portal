@@ -132,7 +132,7 @@ export const updateCourse = async (req, res) => {
             });
         }
 
-        if (course.creator_id !== req.user._id && req.user.role !== "admin") {
+        if (course.creator_id?.toString() !== req.user._id?.toString()) {
             return res.status(403).json({
                 ok: false,
                 message: "Unauthorized",

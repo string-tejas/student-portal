@@ -1,6 +1,7 @@
 import Student from "../models/Student.js";
 import User from "../models/User.js";
 import Course from "../models/Course.js";
+import AssignmentSubmission from "../models/AssignmentSubmission.js";
 
 export const partialSubmit1 = async (req, res) => {
     try {
@@ -89,7 +90,16 @@ export const getEnrolledCourses = async (req, res) => {
 
         const student = await Student.findOne({
             user_account_id: userId,
-        }).populate("courses.course");
+        })
+            .populate({
+                path: "courses.course",
+                populate: {
+                    path: "creator_id",
+                    select: "name email",
+                },
+            })
+            .lean()
+            .exec();
 
         if (!student) {
             return res.status(404).json({
@@ -265,6 +275,66 @@ export const enrollCourse = async (req, res) => {
     } catch (e) {
         console.log(e);
         res.status(500).json({
+            message: "Internal server error",
+            ok: false,
+        });
+    }
+};
+
+export const getStudentAssignments = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const code = req.params.id;
+
+        const student = await Student.findOne({
+            user_account_id: userId,
+        });
+
+        if (!student) {
+            return res.status(404).json({
+                message: "Student not found",
+                ok: false,
+            });
+        }
+
+        const course = await Course.findOne(
+            {
+                code,
+            },
+            {
+                assignments: 1,
+            }
+        )
+            .lean()
+            .exec();
+
+        if (!course) {
+            return res.status(404).json({
+                message: "Assignments not found",
+                ok: false,
+            });
+        }
+
+        const assignmentIds = course.assignments.map((a) => a._id);
+
+        const submissions = await AssignmentSubmission.find({
+            assignment_id: {
+                $in: assignmentIds,
+            },
+            student_id: student._id,
+        })
+            .populate("assignment_id")
+            .lean()
+            .exec();
+
+        return res.status(200).json({
+            message: "Assignments fetched",
+            ok: true,
+            submissions,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
             message: "Internal server error",
             ok: false,
         });

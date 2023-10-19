@@ -35,6 +35,10 @@ const StudentCoursePage = () => {
         console.log(res);
         res.course.isEnrolled = res.isEnrolled;
         setCourse(res.course);
+        dispatch({
+            type: GlobalActions.SET_CURRENT_COURSE,
+            payload: res.course,
+        });
         setLoading(false);
     };
 

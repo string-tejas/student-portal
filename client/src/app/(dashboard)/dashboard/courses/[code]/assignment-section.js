@@ -42,6 +42,55 @@ const AssignmentSection = () => {
         return null;
     }
 
+    if (state.user.role === "student") {
+        return (
+            <StudentAssignments
+                code={code}
+                assignments={assignments}
+                loading={loading}
+            />
+        );
+    } else if (state.user.role === "teacher") {
+        return (
+            <TeacherAssignments
+                code={code}
+                assignments={assignments}
+                loading={loading}
+            />
+        );
+    }
+    return null;
+};
+
+const StudentAssignments = ({ code, assignments, loading }) => {
+    return (
+        <>
+            <div className="flex items-center">
+                <h1 className="text-xl flex md:text-2xl font-semibold mb-3">
+                    Assignments
+                </h1>
+            </div>
+            <div className="flex flex-col gap-3">
+                {loading ? (
+                    <div>Loading ...</div>
+                ) : assignments?.length === 0 ? (
+                    <div>No assignments yet</div>
+                ) : (
+                    assignments?.map((assignment) => {
+                        return (
+                            <AssignmentCard
+                                key={assignment._id}
+                                assignment={assignment}
+                            />
+                        );
+                    })
+                )}
+            </div>
+        </>
+    );
+};
+
+const TeacherAssignments = ({ code, assignments, loading }) => {
     return (
         <>
             {" "}
@@ -70,6 +119,7 @@ const AssignmentSection = () => {
                             <AssignmentCard
                                 key={assignment._id}
                                 assignment={assignment}
+                                allowManage
                             />
                         );
                     })
