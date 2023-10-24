@@ -56,9 +56,23 @@ export const getAllAssignmentsForCourse = async (req, res) => {
     }
 };
 
+export const getSingleAssignment = async (req, res) => {
+    try {
+        const { name, course_id } = req.params;
+
+        const assignment = await Assignment.find({ name, course_id });
+
+        res.status(200).json({ assignment, ok: true });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Something went wrong!", ok: false });
+    }
+};
+
 export const uploadAssignment = async (req, res) => {
     try {
         const file = req.file;
+        const { course_code, assignment_id } = req.body;
 
         // const { assignment_id } = req.body;
         // const student_id = req.user._id;

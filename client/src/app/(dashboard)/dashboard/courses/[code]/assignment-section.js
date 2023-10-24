@@ -78,10 +78,12 @@ const StudentAssignments = ({ code, assignments, loading }) => {
                 ) : (
                     assignments?.map((assignment) => {
                         return (
-                            <AssignmentCard
+                            <Link
                                 key={assignment._id}
-                                assignment={assignment}
-                            />
+                                href={`/dashboard/courses/${code}/assignment/${assignment.name}`}
+                            >
+                                <AssignmentCard assignment={assignment} />
+                            </Link>
                         );
                     })
                 )}
@@ -116,11 +118,15 @@ const TeacherAssignments = ({ code, assignments, loading }) => {
                 ) : (
                     assignments?.map((assignment) => {
                         return (
-                            <AssignmentCard
+                            <Link
                                 key={assignment._id}
-                                assignment={assignment}
-                                allowManage
-                            />
+                                href={`/dashboard/courses/${code}/assignment/${assignment.name}`}
+                            >
+                                <AssignmentCard
+                                    assignment={assignment}
+                                    allowManage
+                                />
+                            </Link>
                         );
                     })
                 )}

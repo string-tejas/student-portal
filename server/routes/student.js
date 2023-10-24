@@ -9,7 +9,10 @@ import {
     partialSubmit1,
     partialSubmit3,
 } from "../controllers/student.js";
-import { uploadAssignment } from "../controllers/assignment.js";
+import {
+    getSingleAssignment,
+    uploadAssignment,
+} from "../controllers/assignment.js";
 import multer from "multer";
 
 const router = Router();
@@ -42,11 +45,13 @@ router.get("/teachers", isLoggedIn, isStudent, getTeachers);
 
 router.post(
     "/upload",
-    // isLoggedIn,
-    // isStudent,
+    isLoggedIn,
+    isStudent,
     multerUploader.single("file"),
     uploadAssignment
 );
+
+router.get("/assignment", isLoggedIn, isStudent, getSingleAssignment);
 
 // router.post(
 //     "/courses/:id/assignments/:id/upload",
