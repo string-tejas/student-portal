@@ -60,7 +60,13 @@ export const getSingleAssignment = async (req, res) => {
     try {
         const { name, course_id } = req.params;
 
-        const assignment = await Assignment.find({ name, course_id });
+        const cleanName = name.replace("%20", " ");
+        console.log(cleanName);
+
+        const assignment = await Assignment.find({
+            name: cleanName,
+            course_id,
+        });
 
         res.status(200).json({ assignment, ok: true });
     } catch (e) {

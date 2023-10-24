@@ -54,9 +54,11 @@ const StudentAssignment = () => {
             state.currentCourse._id
         );
 
+        const cleanedId = id?.replace(/%20/g, " ");
+
         if (result.ok) {
             const assignment = result.assignments.find(
-                (assignment) => assignment.name === id
+                (assignment) => assignment.name === cleanedId
             );
             if (assignment) {
                 setAssignment(assignment);
@@ -110,8 +112,10 @@ const DetailsSection = ({ assignment }) => {
     return (
         <>
             <h1 className="text-3xl font-semibold mt-4">{assignment?.name}</h1>
-            <div className="mt-6">{assignment?.description}</div>
-            <div className="mt-2">
+            <div className="mt-6 whitespace-pre-line">
+                {assignment?.description}
+            </div>
+            <div className="mt-2 border-t border-gray-600 pt-3">
                 <span className="font-semibold">Deadline: </span>
                 {new Date(assignment?.deadline).toLocaleString()}
                 <span

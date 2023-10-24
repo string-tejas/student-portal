@@ -50,7 +50,7 @@ const BreadCrumbs = () => {
                             href={makePath(paths, index)}
                             className=" text-xs md:text-sm  text-gray-300 hover:text-gray-50 rounded-md hover:underline capitalize"
                         >
-                            {path?.replace(/-/g, " ")}
+                            {path?.replace(/-/g, " ")?.replace(/%20/g, " ")}
                         </Link>
                     </span>
                 );
