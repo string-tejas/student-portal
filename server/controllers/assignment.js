@@ -125,20 +125,22 @@ export const uploadAssignment = async (req, res) => {
 
 export const getSubmissionForAssignmentWithID = async (req, res) => {
     try {
-        const { assignment_id } = req.params;
+        const { assignment_id } = req.query;
+        const student_id = req.user._id;
 
-        const submissions = await AssignmentSubmission.find({
+        const submission = await AssignmentSubmission.findOne({
             assignment_id,
+            student_id,
         });
 
-        if (!submissions) {
+        if (!submission) {
             return res.status(404).json({
                 message: "No submissions found!",
                 ok: false,
             });
         }
 
-        return res.status(200).json({ submissions, ok: true });
+        return res.status(200).json({ submission, ok: true });
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "Something went wrong!", ok: false });
@@ -147,7 +149,7 @@ export const getSubmissionForAssignmentWithID = async (req, res) => {
 
 export const makeSubmission = async (req, res) => {
     try {
-        const { file } = req.file;
+        const file = req.file;
         const { assignment_id } = req.body;
         const student_id = req.user._id;
 
