@@ -84,9 +84,10 @@ app.post("/delete", async (req, res) => {
             return res.status(400).json({ message: "No file uploaded" });
         }
 
-        const result = await cloudinary.uploader.destroy(
-            "assignments/" + public_id
-        );
+        const id = public_id.split("/")[public_id.split("/").length - 1];
+        console.log("Received file", id);
+
+        const result = await cloudinary.uploader.destroy("assignments/" + id);
         console.log(result);
 
         if (!time) {

@@ -11,6 +11,10 @@ import {
 } from "../controllers/student.js";
 import {
     getSingleAssignment,
+    getSubmissionForAssignmentWithID,
+    makeSubmission,
+    reSubmit,
+    removeSubmission,
     uploadAssignment,
 } from "../controllers/assignment.js";
 import multer from "multer";
@@ -52,6 +56,31 @@ router.post(
 );
 
 router.get("/assignment", isLoggedIn, isStudent, getSingleAssignment);
+
+router.get(
+    "/assignment/submission",
+    isLoggedIn,
+    isStudent,
+    getSubmissionForAssignmentWithID
+);
+
+router.post(
+    "/assignment/submit",
+    isLoggedIn,
+    isStudent,
+    multerUploader.single("file"),
+    makeSubmission
+);
+
+router.delete("/assignment/unsubmit", isLoggedIn, isStudent, removeSubmission);
+
+router.post(
+    "/assignment/resubmit",
+    isLoggedIn,
+    isStudent,
+    multerUploader.single("file"),
+    reSubmit
+);
 
 // router.post(
 //     "/courses/:id/assignments/:id/upload",

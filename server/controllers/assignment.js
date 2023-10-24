@@ -1,5 +1,6 @@
 import axios from "axios";
 import Assignment from "../models/Assignment.js";
+import AssignmentSubmission from "../models/AssignmentSubmission.js";
 import Course from "../models/Course.js";
 import lamportClock from "../index.js";
 import fs from "fs";
@@ -116,6 +117,141 @@ export const uploadAssignment = async (req, res) => {
             message: "File uploaded successfully",
             fileUrl: data?.fileUrl,
         });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Something went wrong!", ok: false });
+    }
+};
+
+export const getSubmissionForAssignmentWithID = async (req, res) => {
+    try {
+        const { assignment_id } = req.params;
+
+        const submissions = await AssignmentSubmission.find({
+            assignment_id,
+        });
+
+        if (!submissions) {
+            return res.status(404).json({
+                message: "No submissions found!",
+                ok: false,
+            });
+        }
+
+        return res.status(200).json({ submissions, ok: true });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Something went wrong!", ok: false });
+    }
+};
+
+export const makeSubmission = async (req, res) => {
+    try {
+        const { file } = req.file;
+        const { assignment_id } = req.body;
+        const student_id = req.user._id;
+
+        const formdata = new FormData();
+
+        formdata.append("file", fs.createReadStream(file.path));
+
+        const result = await axios.post(
+            process.env.UPLOADER_URL + "/upload",
+            formdata,
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.UPLOADER_KEY}`,
+                    ...formdata.getHeaders(),
+                },
+            }
+        );
+
+        const data = result.data;
+
+        console.log("Uploaded file", data);
+        fs.unlinkSync(file.path);
+
+        const fileUrl = data?.fileUrl;
+
+        const submission = await AssignmentSubmission.create({
+            assignment_id,
+            student_id,
+            submission: fileUrl,
+            marks: -1,
+        });
+
+        return res.status(201).json({ submission, ok: true });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Something went wrong!", ok: false });
+    }
+};
+
+export const removeSubmission = async (req, res) => {
+    try {
+        const { assignment_id } = req.params;
+
+        const submission = await AssignmentSubmission.findOneAndDelete({
+            assignment_id,
+            student_id: req.user._id,
+        });
+
+        if (!submission) {
+            return res.status(404).json({
+                message: "No submission found!",
+                ok: false,
+            });
+        }
+
+        return res.status(200).json({ submission, ok: true });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Something went wrong!", ok: false });
+    }
+};
+
+export const reSubmit = async (req, res) => {
+    try {
+        const { file } = req.file;
+        const { assignment_id } = req.body;
+        const student_id = req.user._id;
+
+        const formdata = new FormData();
+
+        formdata.append("file", fs.createReadStream(file.path));
+
+        const result = await axios.post(
+            process.env.UPLOADER_URL + "/upload",
+            formdata,
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.UPLOADER_KEY}`,
+                    ...formdata.getHeaders(),
+                },
+            }
+        );
+
+        const data = result.data;
+
+        console.log("Uploaded file", data);
+        fs.unlinkSync(file.path);
+
+        const fileUrl = data?.fileUrl;
+
+        const submission = await AssignmentSubmission.findOneAndUpdate(
+            {
+                assignment_id,
+                student_id,
+            },
+            {
+                submission: fileUrl,
+            },
+            {
+                new: true,
+            }
+        );
+
+        return res.status(201).json({ submission, ok: true });
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "Something went wrong!", ok: false });
