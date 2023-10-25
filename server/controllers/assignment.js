@@ -259,3 +259,22 @@ export const reSubmit = async (req, res) => {
         res.status(500).json({ message: "Something went wrong!", ok: false });
     }
 };
+
+export const getSubmissionsForAssignment = async (req, res) => {
+    try {
+        const { assignment_id }= req.query
+
+        const results = await AssignmentSubmission.find({
+            assignment_id
+        }).populate('student_id').lean().exec();
+
+        console.log(results);
+
+        return res.json({
+            ok: true,  
+            assignments: results
+        })
+    } catch (e) {
+
+    }
+}
