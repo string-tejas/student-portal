@@ -262,19 +262,21 @@ export const reSubmit = async (req, res) => {
 
 export const getSubmissionsForAssignment = async (req, res) => {
     try {
-        const { assignment_id }= req.query
+        const { assignment_id } = req.query;
 
         const results = await AssignmentSubmission.find({
-            assignment_id
-        }).populate('student_id').lean().exec();
-
-        console.log(results);
+            assignment_id,
+        })
+            .populate({
+                path: "student_id",
+                select: "name _id profile_img roll_number email",
+            })
+            .lean()
+            .exec();
 
         return res.json({
-            ok: true,  
-            assignments: results
-        })
-    } catch (e) {
-
-    }
-}
+            ok: true,
+            assignments: results,
+        });
+    } catch (e) {}
+};
