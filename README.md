@@ -1,4 +1,4 @@
-# Student Portal
+# Welcome to our Student Portal
 
 ## Starting the client
 
