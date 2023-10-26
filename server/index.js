@@ -12,6 +12,7 @@ import teacherRoutes from "./routes/teacher.js";
 // import servicesRoutes from "./routes/services.js";
 import connectDb from "./config/database.js";
 import LamportClock from "./lamport.js";
+import axios from "axios";
 
 const lamportClock = new LamportClock();
 
@@ -52,6 +53,31 @@ app.use("/students", studentRoutes);
 app.use("/seva", sevaRoutes);
 app.use("/teachers", teacherRoutes);
 // app.use("/services", servicesRoutes);
+
+app.get("/pdf", async (req, res) => {
+    try {
+        const { pdfUrl } = req.query;
+
+        console.log(pdfUrl);
+        if (!pdfUrl) {
+            return res.status(400).json({ message: "No pdfUrl provided!" });
+        }
+
+        const result = await axios.get(
+            process.env.UPLOADER_URL + "/extract?pdfUrl=" + pdfUrl,
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.UPLOADER_KEY}`,
+                },
+            }
+        );
+
+        return res.json(result.data);
+    } catch (e) {
+        console.log(e?.response?.data);
+        res.status(500).json({ message: "Something went wrong!", ok: false });
+    }
+});
 
 app.listen(port, async () => {
     console.log("Web server listening on port " + port);

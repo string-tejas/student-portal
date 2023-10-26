@@ -4,8 +4,8 @@ const multer = require("multer");
 const LamportClock = require("./lamport");
 const { createCloudinaryStorage } = require("multer-storage-cloudinary");
 require("dotenv").config();
-const util = require("util");
-
+const pdf = require("pdf-parse");
+const { default: axios } = require("axios");
 const app = express();
 const port = process.env.PORT || 3555;
 
@@ -102,6 +102,47 @@ app.post("/delete", async (req, res) => {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+function removeNullCharacters(inputString) {
+    // Use a regular expression to replace null characters with an empty string
+    return inputString.replace(/\0/g, "");
+}
+
+function keepOnlyAscii(inputString) {
+    return inputString.replace(/[^\x00-\x7F]+/g, "");
+}
+
+function keepLettersPunctuationNumbers(inputString) {
+    return inputString.replace(/[^a-zA-Z0-9\s.,!?;:'"()/-]/g, "");
+}
+
+app.get("/extract", async (req, res) => {
+    try {
+        const { pdfUrl } = req.query;
+
+        if (!pdfUrl) {
+            return res.status(400).json({ message: "No file uploaded" });
+        }
+
+        const result = await axios.get(pdfUrl, { responseType: "arraybuffer" });
+
+        const data = new Uint8Array(result.data);
+        const text = await pdf(data);
+
+        res.json({
+            ok: true,
+            text: keepLettersPunctuationNumbers(
+                keepOnlyAscii(removeNullCharacters(text.text))?.substring(
+                    0,
+                    200
+                )
+            ),
+        });
+    } catch (e) {
+        console.log(e?.response?.data);
         res.status(500).json({ message: "Internal server error" });
     }
 });
