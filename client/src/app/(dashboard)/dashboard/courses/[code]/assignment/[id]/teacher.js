@@ -270,7 +270,8 @@ const DataSection = ({ submission, setPdfText, pdfText, setSummary }) => {
         const result = await extractText(submission?.submission);
         if (result.ok && result?.text) {
             setPdfText(result?.text);
-            const plagirismResult = await checkPlagirismRapid(result?.text);
+            // const plagirismResult = await checkPlagirismRapid(result?.text);
+            const plagirismResult = await checkPlagirismEdenAi(result?.text);
             const summaryResult = await generateSummary(result?.text);
             setSummary(summaryResult?.summary);
             setPlagirism(plagirismResult);

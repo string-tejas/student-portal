@@ -23,8 +23,9 @@ export const checkPlagirismEdenAi = async (text) => {
         };
 
         const result = await axios.request(options);
+        result.data.sapling.percentPlagiarism = result?.data?.sapling?.ai_score;
 
-        return result.data;
+        return result.data?.sapling;
     } catch (e) {
         console.log(e);
         return { ok: false, error: e?.response?.data };
