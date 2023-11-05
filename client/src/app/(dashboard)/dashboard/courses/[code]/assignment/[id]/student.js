@@ -240,10 +240,12 @@ const DetailsSection = ({
     };
 
     const submissionDatePassed = () => {
-        return (
-            moment(assignment?.deadline).isBefore(moment()) ||
-            submission?.marks != -1
-        );
+        return moment(assignment?.deadline).isBefore(moment());
+    };
+
+    const graded = () => {
+        if (!submission) return false;
+        return submission?.marks != -1;
     };
 
     return (
@@ -288,7 +290,7 @@ const DetailsSection = ({
                             ? submission?.createdAt
                             : "No submission yet "}
                     </span>
-                    {!submissionDatePassed() && (
+                    {!submissionDatePassed() && !graded() && (
                         <div>
                             <button
                                 onClick={() => {
