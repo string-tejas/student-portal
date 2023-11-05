@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
+import { ShowPdf } from "./teacher";
 
 const StudentAssignment = () => {
     const [assignment, setAssignment] = useState(null);
@@ -130,22 +131,42 @@ const StudentAssignment = () => {
         }
     };
 
+    const hasSubmitted = () => {
+        return !loading && assignment && submission && submission.submission;
+    };
+
     return (
-        <div>
-            <BreadCrumbs />
-            {loading && (
-                <h1 className="text-3xl font-semibold mt-4">Loading...</h1>
-            )}
-            {!loading && assignment && (
-                <DetailsSection
-                    assignment={assignment}
-                    loadSubmission={loadSubmission}
-                    submission={submission}
-                    setLoadSubmission={setLoadSubmission}
-                    setSubmission={setSubmission}
-                />
-            )}
-        </div>
+        <>
+            <div
+                className={`grid h-full ${
+                    hasSubmitted() ? "grid-cols-2" : "grid-cols-1"
+                }`}
+            >
+                <div>
+                    <BreadCrumbs />
+                    {loading && (
+                        <h1 className="text-3xl font-semibold mt-4">
+                            Loading...
+                        </h1>
+                    )}
+                    {!loading && assignment && (
+                        <DetailsSection
+                            assignment={assignment}
+                            loadSubmission={loadSubmission}
+                            submission={submission}
+                            setLoadSubmission={setLoadSubmission}
+                            setSubmission={setSubmission}
+                        />
+                    )}
+                </div>
+                {hasSubmitted() && (
+                    <ShowPdf
+                        url={submission.submission}
+                        notfoundText="No submission yet"
+                    />
+                )}
+            </div>
+        </>
     );
 };
 
@@ -178,6 +199,7 @@ const DetailsSection = ({
         if (result.ok) {
             setLoadSubmission(true);
             setSubmission(result.submission);
+            console.log(result);
             setLoadSubmission(false);
         } else {
             setLoadSubmission(false);

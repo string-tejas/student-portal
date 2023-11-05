@@ -208,14 +208,16 @@ const StudentsSubmissionList = ({
     );
 };
 
-export const ShowPdf = ({ url, bottomText = "" }) => {
+export const ShowPdf = ({
+    url,
+    bottomText = "",
+    notfoundText = "Select a submission",
+}) => {
     if (!url) {
         return (
             <div className="flex flex-col items-center justify-center h-full">
                 <img src="/images/choose.svg" className="h-1/3" />
-                <h1 className="text-3xl font-semibold mt-8">
-                    Select a submission
-                </h1>
+                <h1 className="text-3xl font-semibold mt-8">{notfoundText}</h1>
             </div>
         );
     }
