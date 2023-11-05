@@ -93,7 +93,7 @@ app.post("/delete", async (req, res) => {
         }
 
         const id = public_id.split("/")[public_id.split("/").length - 1];
-        console.log("Received file", id);
+        console.log("File to delete", id);
         // remove extension if any
         const idWithoutExtension = id.split(".")[0];
 

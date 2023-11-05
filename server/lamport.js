@@ -5,7 +5,7 @@ class LamportClock {
 
     tick() {
         this.clock++;
-        this.printTime();
+        // this.printTime();
     }
 
     getTime() {
@@ -15,7 +15,7 @@ class LamportClock {
     updateTime(receivedTime) {
         const behind = this.clock < receivedTime;
         this.clock = Math.max(this.clock, receivedTime) + 1;
-        this.printTime();
+        // this.printTime();
         return behind;
     }
 

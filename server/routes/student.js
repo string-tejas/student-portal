@@ -19,11 +19,16 @@ import {
     uploadAssignment,
 } from "../controllers/assignment.js";
 import multer from "multer";
+import fs from "fs";
 
 const router = Router();
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/");
+        const dir = "uploads/";
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
+        cb(null, dir);
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + "-" + file.originalname);
