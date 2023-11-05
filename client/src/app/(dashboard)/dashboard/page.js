@@ -2,6 +2,7 @@
 import { useGlobalContext } from "@/context/global";
 import React from "react";
 import Teacher from "./teacher";
+import StudentDashboard from "./student";
 
 const Dashboard = () => {
     const { state } = useGlobalContext();
@@ -9,7 +10,7 @@ const Dashboard = () => {
     if (state.user.role === "teacher") {
         return <Teacher />;
     } else if (state.user.role === "student") {
-        return <div>Welcome Student</div>;
+        return <StudentDashboard />;
     }
 
     return <div>Dashboard</div>;

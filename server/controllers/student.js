@@ -2,6 +2,7 @@ import Student from "../models/Student.js";
 import User from "../models/User.js";
 import Course from "../models/Course.js";
 import AssignmentSubmission from "../models/AssignmentSubmission.js";
+import Assignment from "../models/Assignment.js";
 
 export const partialSubmit1 = async (req, res) => {
     try {
@@ -331,6 +332,92 @@ export const getStudentAssignments = async (req, res) => {
             message: "Assignments fetched",
             ok: true,
             submissions,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            message: "Internal server error",
+            ok: false,
+        });
+    }
+};
+
+export const getHomePageData = async (req, res) => {
+    try {
+        // get 4 enrolled courses with recent update
+        const student = await Student.findOne({
+            user_account_id: req.user._id,
+        });
+        const enrolledCoursesId = student.courses.map((c) => c.course);
+
+        const enrolledCourses = await Course.find({
+            _id: { $in: enrolledCoursesId },
+        })
+            .sort({ updatedAt: -1 })
+            .limit(4);
+
+        const assignmentIds = enrolledCourses
+            .map((course) => course.assignments)
+            .flat();
+
+        const submittedAssignments = await AssignmentSubmission.find(
+            {
+                student_id: req?.user?._id,
+                assignment_id: { $in: assignmentIds },
+            },
+            {
+                assignment_id: 1,
+            }
+        );
+
+        const submittedAssignmentsId = submittedAssignments.map(
+            (a) => a.assignment_id
+        );
+
+        const pendingAssignmentsIds = [];
+
+        for (let i = 0; i < assignmentIds.length; i++) {
+            for (let j = 0; j < submittedAssignmentsId.length; j++) {
+                if (
+                    assignmentIds[i].toString() ===
+                    submittedAssignmentsId[j].toString()
+                ) {
+                    break;
+                }
+                if (j === submittedAssignmentsId.length - 1) {
+                    pendingAssignmentsIds.push(assignmentIds[i]);
+                }
+            }
+        }
+
+        const pendingAssignments = await Assignment.find({
+            _id: {
+                $in: pendingAssignmentsIds,
+            },
+            allow_submission: true,
+        })
+            .populate("course_id", "code name")
+            .sort({ deadline: 1 });
+
+        // find teachers of enrolled courses
+        const teachers = await User.find(
+            {
+                _id: {
+                    $in: enrolledCourses.map((course) => course.creator_id),
+                },
+            },
+            {
+                name: 1,
+                email: 1,
+                profile_img: 1,
+            }
+        );
+
+        return res.status(200).json({
+            ok: true,
+            recentCourses: enrolledCourses,
+            pendingAssignments,
+            teachers,
         });
     } catch (e) {
         console.log(e);

@@ -4,6 +4,7 @@ import isStudent from "../middlewares/isStudent.js";
 import {
     enrollCourse,
     getEnrolledCourses,
+    getHomePageData,
     getSingleCourseByStudent,
     getTeachers,
     partialSubmit1,
@@ -81,6 +82,8 @@ router.post(
     multerUploader.single("file"),
     reSubmit
 );
+
+router.get("/homepage", isLoggedIn, isStudent, getHomePageData);
 
 // router.post(
 //     "/courses/:id/assignments/:id/upload",

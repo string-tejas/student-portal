@@ -181,3 +181,21 @@ export const removeSubmission = async (token, values) => {
         };
     }
 };
+
+export const getHomePageData = async (token) => {
+    try {
+        const result = await api.get(`/students/homepage`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return result.data;
+    } catch (e) {
+        console.log(e?.response?.data);
+        return {
+            ...e.response.data,
+            ok: false,
+        };
+    }
+};

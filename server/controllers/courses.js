@@ -270,6 +270,9 @@ export const searchCourses = async (req, res) => {
                 { name: { $regex: query, $options: "i" } },
                 { email: { $regex: query, $options: "i" } },
             ],
+            role: {
+                $nin: ["student", "admin"],
+            },
         })
             .select("name email profile_img")
             .limit(10)

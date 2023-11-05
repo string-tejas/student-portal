@@ -2,14 +2,29 @@ import moment from "moment";
 import React from "react";
 import { BiEditAlt, BiTrash } from "react-icons/bi";
 
-const AssignmentCard = ({ assignment, allowManage = false }) => {
+const AssignmentCard = ({ assignment, allowManage = false, small = false }) => {
     if (!assignment) return null;
     return (
         <div className="items-center border rounded-lg shadow md:flex-row   border-gray-700 bg-gray-800 hover:bg-gray-700">
-            <div className="flex items-center p-2 md:p-4 leading-normal">
-                <h5 className="mb-2 text-xl md:text-2xl font-bold tracking-tight text-white">
+            <div
+                className={`flex items-center justify-center ${
+                    small ? "p-1 md:p-2 md:px-4" : "p-2 md:p-4"
+                } leading-normal`}
+            >
+                <h5
+                    className={`${
+                        small
+                            ? "text-sm md:text-lg"
+                            : "mb-2 text-xl md:text-2xl"
+                    }  font-bold tracking-tight text-white`}
+                >
                     {assignment.name}
                 </h5>
+                {assignment?.course_id?.name && (
+                    <span className="text-xs border px-2 py-1 rounded-md ml-4 bg-green-700 border-green-800">
+                        {assignment?.course_id?.name}
+                    </span>
+                )}
                 <div className="flex ml-auto items-center gap-3">
                     <div className="px-2 py-1 text-xs text-white bg-blue-600 rounded-lg">
                         {moment(assignment.deadline).fromNow()}
