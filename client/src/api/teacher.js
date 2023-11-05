@@ -38,3 +38,21 @@ export const getTrHomePageData = async (token) => {
         };
     }
 };
+
+export const assignMarks = async (token, data) => {
+    try {
+        const result = await api.post("/teachers/grade", data, {
+            headers: {
+                Authorization: `bearer ${token}`,
+            },
+        });
+
+        return result.data;
+    } catch (e) {
+        console.log(e);
+        return {
+            ok: false,
+            error: e?.response?.data,
+        };
+    }
+};

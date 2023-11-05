@@ -5,12 +5,13 @@ import {
     generateSummary,
 } from "@/api/doc-analysis";
 import { extractText } from "@/api/pdf";
-import { getAllSubmissionsForAssignment } from "@/api/teacher";
+import { assignMarks, getAllSubmissionsForAssignment } from "@/api/teacher";
 import Loading from "@/app/(dashboard)/loading";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import NoPage from "@/components/NoPage";
 import { useGlobalContext } from "@/context/global";
 import { GlobalActions } from "@/context/globalReducer";
+import { getMarkColor } from "@/utils/marksColor";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import GaugeChart from "react-gauge-chart";
@@ -160,6 +161,9 @@ const TeacherAssignment = () => {
                         setPdfText={setPdfText}
                         pdfText={pdfText}
                         setSummary={setSummary}
+                        setSubmissions={setSubmissions}
+                        setCurrentSubmission={setCurrentSubmission}
+                        submissions={submissions}
                     />
                 </div>
             </div>
@@ -247,12 +251,31 @@ export const ShowPdf = ({
     );
 };
 
-const DataSection = ({ submission, setPdfText, pdfText, setSummary }) => {
+const DataSection = ({
+    submission,
+    setPdfText,
+    pdfText,
+    setSummary,
+    setSubmissions,
+    setCurrentSubmission,
+    submissions,
+}) => {
     const [loading, setLoading] = useState(false);
     const [plagirism, setPlagirism] = useState(null);
     const [score, setScore] = useState(null);
 
+    const [marks, setMarks] = useState("");
+
     const { dispatch } = useGlobalContext();
+
+    const updateSubmission = () => {
+        let copy = [...submissions];
+        const index = copy.findIndex((sub) => sub._id === submission._id);
+        copy[index].marks = marks;
+        setSubmissions(copy);
+        setCurrentSubmission(copy[index]);
+        setMarks("");
+    };
 
     useEffect(() => {
         if (submission) {
@@ -262,6 +285,8 @@ const DataSection = ({ submission, setPdfText, pdfText, setSummary }) => {
             setScore(null);
         }
     }, [submission]);
+
+    console.log(submission);
 
     if (!submission) {
         return <div>Select a submission</div>;
@@ -290,6 +315,42 @@ const DataSection = ({ submission, setPdfText, pdfText, setSummary }) => {
         setLoading(false);
     };
 
+    const gradeAssignmentSubmission = async () => {
+        if (!marks || marks < 0 || marks > 10) {
+            dispatch({
+                type: GlobalActions.SET_TOAST,
+                payload: {
+                    type: "error",
+                    message: "Marks must be from 0 to 10",
+                },
+            });
+            return;
+        } else {
+            const result = await assignMarks(localStorage.getItem("token"), {
+                submission_id: submission._id,
+                marks,
+            });
+            if (result.ok) {
+                dispatch({
+                    type: GlobalActions.SET_TOAST,
+                    payload: {
+                        type: "success",
+                        message: "Marks assigned successfully",
+                    },
+                });
+                updateSubmission();
+            } else {
+                dispatch({
+                    type: GlobalActions.SET_TOAST,
+                    payload: {
+                        type: "error",
+                        message: result.message,
+                    },
+                });
+            }
+        }
+    };
+
     return (
         <div className="flex flex-col items-center justify-start gap-3  ">
             <button
@@ -301,14 +362,36 @@ const DataSection = ({ submission, setPdfText, pdfText, setSummary }) => {
             {score && <GaugeChart id="gauge-chart1" percent={score} />}
 
             <input
-                type="text"
+                type="number"
                 className="w-full rounded-md px-3 py-1 bg-gray-600"
                 placeholder="Enter marks"
+                value={marks}
+                onChange={(e) => {
+                    setMarks(e.target.value);
+                }}
             />
 
-            <button className="px-3 py-2 bg-blue-600 rounded-md">
+            <button
+                onClick={gradeAssignmentSubmission}
+                className="px-3 py-2 bg-blue-600 rounded-md"
+            >
                 Submit Marks
             </button>
+
+            {submission?.marks != -1 && (
+                <div className={"mt-2"}>
+                    Marks given:
+                    <span
+                        className={`ml-1`}
+                        style={{
+                            color: getMarkColor(submission?.marks),
+                            // textShadow: "0px 1px #ddd",
+                        }}
+                    >
+                        {submission?.marks}
+                    </span>
+                </div>
+            )}
         </div>
     );
 };

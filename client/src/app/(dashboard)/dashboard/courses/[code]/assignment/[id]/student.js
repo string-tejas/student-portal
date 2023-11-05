@@ -17,6 +17,7 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { ShowPdf } from "./teacher";
+import { getMarkColor } from "@/utils/marksColor";
 
 const StudentAssignment = () => {
     const [assignment, setAssignment] = useState(null);
@@ -239,7 +240,10 @@ const DetailsSection = ({
     };
 
     const submissionDatePassed = () => {
-        return moment(assignment?.deadline).isBefore(moment());
+        return (
+            moment(assignment?.deadline).isBefore(moment()) ||
+            submission?.marks != -1
+        );
     };
 
     return (
@@ -313,7 +317,25 @@ const DetailsSection = ({
                     />
                 </div>
                 <div className="text-sm text-gray-500 font-semibold">
-                    Not yet graded
+                    {!submission &&
+                        submissionDatePassed() &&
+                        "Submission date has passed"}
+                    {!submission &&
+                        !submissionDatePassed() &&
+                        "Not yet submitted"}
+                    {submission && submission?.marks == -1 && "Not yet graded"}
+                    {submission && submission?.marks != -1 && (
+                        <div className="font-bold">
+                            Marks:{" "}
+                            <span
+                                style={{
+                                    color: getMarkColor(submission?.marks),
+                                }}
+                            >
+                                {submission?.marks}
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

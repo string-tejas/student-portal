@@ -181,6 +181,18 @@ export const makeSubmission = async (req, res) => {
             submission: fileUrl,
             marks: -1,
         });
+
+        await Assignment.findOneAndUpdate(
+            {
+                _id: assignment_id,
+            },
+            {
+                $push: {
+                    submissions: submission._id,
+                },
+            }
+        );
+
         const resultfiledel = await new Promise((resolve, reject) => {
             console.log(file.path);
             fs.unlink(file.path, (err) => {
@@ -351,4 +363,45 @@ export const getSubmissionsForAssignment = async (req, res) => {
             assignments: results,
         });
     } catch (e) {}
+};
+
+export const assignMarks = async (req, res) => {
+    try {
+        const { submission_id, marks } = req.body;
+
+        if (!submission_id) {
+            return res.status(400).json({
+                ok: false,
+                message: "Submission ID not provided",
+            });
+        }
+
+        if (marks < 0 || marks > 10) {
+            return res.status(400).json({
+                ok: false,
+                message: "Marks should be between 0 and 10",
+            });
+        }
+
+        const result = await AssignmentSubmission.findByIdAndUpdate(
+            submission_id,
+            {
+                marks,
+            },
+            {
+                new: true,
+            }
+        );
+
+        return res.status(200).json({
+            ok: true,
+            submission: result,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            ok: false,
+            message: "Something went wrong!",
+        });
+    }
 };
