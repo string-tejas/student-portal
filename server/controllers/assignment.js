@@ -172,7 +172,6 @@ export const makeSubmission = async (req, res) => {
         const data = result.data;
 
         console.log("Uploaded file", data);
-        fs.unlinkSync(file.path);
 
         const fileUrl = data?.fileUrl;
 
@@ -182,6 +181,18 @@ export const makeSubmission = async (req, res) => {
             submission: fileUrl,
             marks: -1,
         });
+        const resultfiledel = await new Promise((resolve, reject) => {
+            console.log(file.path);
+            fs.unlink(file.path, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve("File deleted");
+                }
+            });
+        });
+
+        console.log(resultfiledel);
 
         return res.status(201).json({ submission, ok: true });
     } catch (e) {
