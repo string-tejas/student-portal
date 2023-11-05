@@ -51,7 +51,7 @@ const NewsPage = () => {
                 <div>
                     <h1 className="text-4xl mb-1 font-semibold">Technology</h1>
                     <div className="w-full border-b my-2 border-gray-500" />
-                    {techNews.slice(0, 5).map((article, index) => (
+                    {techNews?.slice(0, 5)?.map((article, index) => (
                         <NewsCard article={article} key={uuid()} />
                     ))}
                 </div>
@@ -59,7 +59,7 @@ const NewsPage = () => {
                 <div style={{ marginLeft: "1rem" }}>
                     <h1 className="text-4xl mb-1 font-semibold">Science</h1>
                     <div className="w-full border-b my-2 border-gray-500" />
-                    {scienceNews.slice(0, 5).map((article, index) => (
+                    {scienceNews?.slice(0, 5)?.map((article, index) => (
                         <NewsCard article={article} key={uuid()} />
                     ))}
                 </div>
@@ -67,7 +67,7 @@ const NewsPage = () => {
                 <div style={{ marginLeft: "1rem" }}>
                     <h1 className="text-4xl mb-1 font-semibold">Business</h1>
                     <div className="w-full border-b my-2 border-gray-500" />
-                    {businessNews.slice(0, 5).map((article, index) => (
+                    {businessNews?.slice(0, 5)?.map((article, index) => (
                         <NewsCard article={article} key={uuid()} />
                     ))}
                 </div>
