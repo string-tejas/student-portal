@@ -10,7 +10,6 @@ import SmallUserCard, {
 } from "@/components/SmallUserCard";
 import { useGlobalContext } from "@/context/global";
 import { GlobalActions } from "@/context/globalReducer";
-import { set } from "lodash";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
