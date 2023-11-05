@@ -274,9 +274,43 @@ export const reSubmit = async (req, res) => {
         const data = result.data;
 
         console.log("Uploaded file", data);
-        fs.unlinkSync(file.path);
+
+        const resultfiledel = await new Promise((resolve, reject) => {
+            console.log(file.path);
+            fs.unlink(file.path, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve("File deleted");
+                }
+            });
+        });
+
+        console.log(resultfiledel);
 
         const fileUrl = data?.fileUrl;
+
+        const oldAssignment = await AssignmentSubmission.findOne({
+            assignment_id,
+            student_id,
+        });
+
+        const oldUrl = oldAssignment.submission;
+
+        const deleteStatus = await axios.post(
+            process.env.UPLOADER_URL + "/delete",
+            {
+                public_id: oldUrl,
+                time: lamportClock.getTime(),
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.UPLOADER_KEY}`,
+                },
+            }
+        );
+
+        console.log(deleteStatus.data);
 
         const submission = await AssignmentSubmission.findOneAndUpdate(
             {

@@ -291,3 +291,74 @@ export const searchCourses = async (req, res) => {
         });
     }
 };
+
+export const getTeacherHomePageData = async (req, res) => {
+    try {
+        const teacher_id = req.user._id;
+        const recentlyUpdatedCourses = await Course.find({
+            creator_id: teacher_id,
+        })
+            .sort({ updatedAt: -1 })
+            .limit(4)
+            .exec();
+
+        const totalCourses = await Course.find({
+            creator_id: teacher_id,
+        }).countDocuments();
+
+        const coursesParticipants = await Course.aggregate([
+            {
+                $match: {
+                    creator_id: teacher_id,
+                },
+            },
+            {
+                $project: {
+                    participants: 1,
+                },
+            },
+        ]);
+
+        const totalParticipants = coursesParticipants.reduce(
+            (acc, curr) => acc + (curr.participants?.length || 0),
+            0
+        );
+
+        const totalAssignment = await Course.aggregate([
+            {
+                $match: {
+                    creator_id: teacher_id,
+                },
+            },
+            {
+                $lookup: {
+                    from: "assignments",
+                    localField: "assignments",
+                    foreignField: "_id",
+                    as: "assignments",
+                },
+            },
+            {
+                $project: {
+                    assignments: 1,
+                },
+            },
+        ]);
+
+        const totalAssignments = totalAssignment.reduce(
+            (acc, curr) => acc + curr.assignments.length,
+            0
+        );
+
+        return res.status(200).json({
+            ok: true,
+            recentlyUpdatedCourses,
+            totalCourses,
+            totalParticipants,
+            totalAssignments,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Something went wrong!", ok: false });
+    }
+};

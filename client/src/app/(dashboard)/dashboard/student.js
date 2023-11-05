@@ -2,8 +2,10 @@
 import { getHomePageData } from "@/api/student";
 import AssignmentCard from "@/components/AssignmentCard";
 import CourseCard from "@/components/CourseCard";
+import SmallUserCard from "@/components/SmallUserCard";
 import { useGlobalContext } from "@/context/global";
 import moment from "moment";
+import Link from "next/link";
 import React from "react";
 import Calendar from "react-calendar";
 import { v4 as uuid } from "uuid";
@@ -51,19 +53,23 @@ const StudentDashboard = () => {
             {!loading && (
                 <>
                     <div className="md:col-span-9">
-                        <h3 className="text-2xl font-bold mb-4">
+                        <h3 className="text-2xl font-bold mb-3">
                             Pending Assignments
                         </h3>
                         {pendingAssignments.length === 0 ? (
                             <p>No pending assignments</p>
                         ) : (
-                            <div className="flex flex-col gap-y-2 overflow-auto max-h-64">
+                            <div className="flex flex-col gap-y-2 overflow-auto h-64 p-2 rounded-md border border-gray-700">
                                 {pendingAssignments.map((assignment) => (
-                                    <AssignmentCard
-                                        assignment={assignment}
-                                        key={uuid()}
-                                        small
-                                    />
+                                    <Link
+                                        href={`/dashboard/courses/${assignment?.course_id?.code}/assignment/${assignment?.name}`}
+                                    >
+                                        <AssignmentCard
+                                            assignment={assignment}
+                                            key={uuid()}
+                                            small
+                                        />
+                                    </Link>
                                 ))}
                             </div>
                         )}
@@ -78,9 +84,30 @@ const StudentDashboard = () => {
                         {recentCourses.length === 0 ? (
                             <p>No recent courses</p>
                         ) : (
-                            <div className="flex flex-col gap-y-2 overflow-auto max-h-64">
+                            <div className="flex gap-y-2 gap-x-4 overflow-auto max-h-64">
                                 {recentCourses.map((course) => (
-                                    <CourseCard course={course} key={uuid()} />
+                                    <Link
+                                        href={`/dashboard/courses/${course.code}`}
+                                        key={uuid()}
+                                    >
+                                        <CourseCard course={course} />
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="md:col-span-12">
+                        <h3 className="text-2xl font-bold mb-4">Teachers</h3>
+                        {teachers.length === 0 ? (
+                            <p>No teachers</p>
+                        ) : (
+                            <div className="flex gap-y-2 gap-x-4 overflow-auto max-h-64">
+                                {teachers.map((teacher) => (
+                                    <SmallUserCard
+                                        key={uuid()}
+                                        user={teacher}
+                                        className="w-48 h-48 bg-gray-700 rounded-lg animate-pulse"
+                                    />
                                 ))}
                             </div>
                         )}
@@ -91,19 +118,27 @@ const StudentDashboard = () => {
     );
 };
 
-const GreetHead = ({ name = "User" }) => (
-    <div className="w-full bg-gradient-to-r p-2 flex justify-between from-blue-900 to-blue-500 rounded-lg">
-        <div className="px-12 py-6">
-            <span className="font-semibold text-sm tracking-wider text-gray-300">
-                {moment().format("dddd, MMMM Do YYYY")}
-            </span>
-            <h3 className="text-4xl font-bold mt-7">Welcome back, {name}</h3>
-            <p className="text-gray-200 mt-2">
-                Here's what's happening with your courses today.
-            </p>
+export const GreetHead = ({
+    name = "User",
+    msg = "Here's what's happening with your courses today.",
+    gradient = "from-blue-900 to-blue-500",
+}) => {
+    return (
+        <div
+            className={`w-full bg-gradient-to-r p-2 flex justify-between ${gradient} rounded-lg`}
+        >
+            <div className="px-12 py-6">
+                <span className="font-semibold text-sm tracking-wider text-gray-300">
+                    {moment().format("dddd, MMMM Do YYYY")}
+                </span>
+                <h3 className="text-4xl font-bold mt-7">
+                    Welcome back, {name}
+                </h3>
+                <p className="text-gray-200 mt-2">{msg}</p>
+            </div>
+            <img src="/images/study.png" alt="" className="w-72" />
         </div>
-        <img src="/images/study.png" alt="" className="w-72" />
-    </div>
-);
+    );
+};
 
 export default StudentDashboard;

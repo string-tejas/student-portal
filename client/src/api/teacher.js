@@ -20,3 +20,21 @@ export const getAllSubmissionsForAssignment = async (token, id) => {
         };
     }
 };
+
+export const getTrHomePageData = async (token) => {
+    try {
+        const result = await api.get("/teachers/homepage", {
+            headers: {
+                Authorization: `bearer ${token}`,
+            },
+        });
+
+        return result.data;
+    } catch (e) {
+        console.log(e);
+        return {
+            ok: false,
+            error: e?.response?.data,
+        };
+    }
+};
