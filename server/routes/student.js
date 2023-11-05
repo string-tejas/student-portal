@@ -72,7 +72,7 @@ router.post(
     makeSubmission
 );
 
-router.delete("/assignment/unsubmit", isLoggedIn, isStudent, removeSubmission);
+router.post("/assignment/unsubmit", isLoggedIn, isStudent, removeSubmission);
 
 router.post(
     "/assignment/resubmit",
@@ -89,6 +89,5 @@ router.post(
 //     multerUploader.single("file"),
 //     uploadAssignment
 // );
-
 
 export default router;

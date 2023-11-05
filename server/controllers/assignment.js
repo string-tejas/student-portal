@@ -156,6 +156,7 @@ export const makeSubmission = async (req, res) => {
         const formdata = new FormData();
 
         formdata.append("file", fs.createReadStream(file.path));
+        formdata.append("time", lamportClock.getTime());
 
         const result = await axios.post(
             process.env.UPLOADER_URL + "/upload",
@@ -191,9 +192,11 @@ export const makeSubmission = async (req, res) => {
 
 export const removeSubmission = async (req, res) => {
     try {
-        const { assignment_id } = req.params;
+        const { assignment_id } = req.body;
 
-        const submission = await AssignmentSubmission.findOneAndDelete({
+        console.log(assignment_id);
+
+        const submission = await AssignmentSubmission.findOne({
             assignment_id,
             student_id: req.user._id,
         });
@@ -205,6 +208,29 @@ export const removeSubmission = async (req, res) => {
             });
         }
 
+        console.log(submission);
+
+        const deleteStatus = await axios.post(
+            process.env.UPLOADER_URL + "/delete",
+            {
+                public_id: submission.submission,
+                time: lamportClock.getTime(),
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.UPLOADER_KEY}`,
+                },
+            }
+        );
+
+        console.log(deleteStatus.data);
+
+        const deleted = await AssignmentSubmission.findByIdAndDelete(
+            submission._id
+        );
+
+        console.log(deleted);
+
         return res.status(200).json({ submission, ok: true });
     } catch (e) {
         console.log(e);
@@ -214,13 +240,14 @@ export const removeSubmission = async (req, res) => {
 
 export const reSubmit = async (req, res) => {
     try {
-        const { file } = req.file;
+        const file = req.file;
         const { assignment_id } = req.body;
         const student_id = req.user._id;
 
         const formdata = new FormData();
 
         formdata.append("file", fs.createReadStream(file.path));
+        formdata.append("time", lamportClock.getTime());
 
         const result = await axios.post(
             process.env.UPLOADER_URL + "/upload",

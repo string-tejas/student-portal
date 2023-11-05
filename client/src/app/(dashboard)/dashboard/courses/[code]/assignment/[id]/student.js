@@ -3,6 +3,7 @@ import {
     getSingleCourseByStudent,
     getSubmissionStudent,
     reSubmit,
+    removeSubmission,
     submitAssignment,
 } from "@/api/student";
 import Loading from "@/app/(dashboard)/loading";
@@ -160,6 +161,7 @@ const DetailsSection = ({
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
+        console.log(file);
         const formData = new FormData();
         formData.append("file", file);
         formData.append("assignment_id", assignment._id);
@@ -189,6 +191,29 @@ const DetailsSection = ({
         }
 
         e.target.value = null;
+    };
+
+    const handleRemove = async () => {
+        setLoadSubmission(true);
+        const result = await removeSubmission(localStorage.getItem("token"), {
+            assignment_id: assignment._id,
+        });
+
+        console.log(result);
+
+        if (result.ok) {
+            setSubmission(null);
+            setLoadSubmission(false);
+        } else {
+            setLoadSubmission(false);
+            dispatch({
+                type: GlobalActions.SET_TOAST,
+                payload: {
+                    severity: "error",
+                    message: result.message,
+                },
+            });
+        }
     };
 
     return (
@@ -244,7 +269,7 @@ const DetailsSection = ({
                         </button>
                         {submission && (
                             <button
-                                onClick={() => {}}
+                                onClick={handleRemove}
                                 className="px-4 py-1 ml-2 bg-red-600 rounded-md hover:bg-red-700"
                             >
                                 Remove

@@ -53,24 +53,32 @@ app.post("/upload", multerUploader.single("file"), async (req, res) => {
         console.log("Received file", req.file);
 
         cloudinary.uploader
-            .upload_stream((err, result) => {
-                const fileUrl = result?.secure_url;
+            .upload_stream(
+                {
+                    folder: "assignments",
+                },
+                (err, result) => {
+                    const fileUrl = result?.secure_url;
 
-                const { time } = req.body;
+                    const { time } = req.body;
+                    console.log("Time", time);
 
-                if (!time) {
-                    lamportClock.tick();
-                } else {
-                    lamportClock.updateTime(time);
+                    if (!time) {
+                        // parallel request
+                        lamportClock.tick();
+                    } else {
+                        // sequential request
+                        lamportClock.updateTime(time);
+                    }
+
+                    return res.json({
+                        ok: true,
+                        message: "File uploaded successfully",
+                        fileUrl,
+                        time: lamportClock.getTime(),
+                    });
                 }
-
-                return res.json({
-                    ok: true,
-                    message: "File uploaded successfully",
-                    fileUrl,
-                    time: lamportClock.getTime(),
-                });
-            })
+            )
             .end(req.file.buffer);
     } catch (e) {
         res.status(500).json({ message: "Internal server error" });
@@ -86,8 +94,12 @@ app.post("/delete", async (req, res) => {
 
         const id = public_id.split("/")[public_id.split("/").length - 1];
         console.log("Received file", id);
+        // remove extension if any
+        const idWithoutExtension = id.split(".")[0];
 
-        const result = await cloudinary.uploader.destroy("assignments/" + id);
+        const result = await cloudinary.uploader.destroy(
+            "assignments/" + idWithoutExtension
+        );
         console.log(result);
 
         if (!time) {

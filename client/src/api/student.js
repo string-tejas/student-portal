@@ -163,3 +163,21 @@ export const reSubmit = async (token, values) => {
         };
     }
 };
+
+export const removeSubmission = async (token, values) => {
+    try {
+        const result = await api.post(`/students/assignment/unsubmit`, values, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return result.data;
+    } catch (e) {
+        console.log(e?.response?.data);
+        return {
+            ...e.response.data,
+            ok: false,
+        };
+    }
+};
