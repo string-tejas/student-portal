@@ -14,16 +14,15 @@ const AssignmentCard = ({ assignment, allowManage = false }) => {
                     <div className="px-2 py-1 text-xs text-white bg-blue-600 rounded-lg">
                         {moment(assignment.deadline).fromNow()}
                     </div>
-                    <div className="px-2 py-1 text-xs text-white bg-blue-600 rounded-lg">
-                        {allowManage && (
+                    {allowManage && (
+                        <div className="px-2 py-1 text-xs text-white bg-blue-600 rounded-lg">
                             <>
                                 {assignment?.submissions?.length === 0
                                     ? "No submissions"
                                     : `${assignment?.submissions?.length} submissions`}
                             </>
-                        )}
-                        {!allowManage && "Not submitted"}
-                    </div>
+                        </div>
+                    )}
                     {allowManage && (
                         <div className="md:col-span-2 flex md:ml-auto items-center justify-start md:justify-end gap-3">
                             <button className="text-gray-400 text-sm font-semibold hover:text-blue-500 flex items-center gap-1">

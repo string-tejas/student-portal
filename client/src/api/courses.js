@@ -113,3 +113,24 @@ export const getRecentCourses = async (token) => {
         };
     }
 };
+
+export const searchCourses = async (token, query) => {
+    try {
+        const res = await api.get("/courses/search", {
+            params: {
+                query,
+            },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return res.data;
+    } catch (e) {
+        console.log(e);
+        return {
+            ...e.response.data,
+            ok: false,
+        };
+    }
+};

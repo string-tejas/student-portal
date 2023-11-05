@@ -1,5 +1,5 @@
 "use client";
-import { getRecentCourses } from "@/api/courses";
+import { getRecentCourses, searchCourses } from "@/api/courses";
 import { getEnrolledCourses, getTeachersByStudent } from "@/api/student";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import CourseCard, { CourseCardLoading } from "@/components/CourseCard";
@@ -10,22 +10,94 @@ import SmallUserCard, {
 } from "@/components/SmallUserCard";
 import { useGlobalContext } from "@/context/global";
 import { GlobalActions } from "@/context/globalReducer";
+import { set } from "lodash";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const StudentPage = () => {
+    const [filteredCourses, setFilteredCourses] = useState(null);
+    const [teachers, setTeachers] = useState(null);
+    const { dispatch } = useGlobalContext();
+
+    const handleSearch = async (search) => {
+        if (!search || search.length === 0) {
+            setFilteredCourses(null);
+        } else {
+            const res = await searchCourses(
+                localStorage.getItem("token"),
+                search
+            );
+
+            if (res.ok) {
+                setFilteredCourses(res.courses);
+                if (res.teachers) {
+                    setTeachers(res.teachers);
+                }
+            } else {
+                dispatch({
+                    type: GlobalActions.SET_TOAST,
+                    payload: {
+                        message: res.message,
+                        type: "error",
+                    },
+                });
+            }
+        }
+    };
+
+    const handleChange = async (search) => {
+        if (!search || search.length === 0) {
+            setFilteredCourses(null);
+            setTeachers(null);
+        }
+    };
+
     return (
         <div>
             <BreadCrumbs />
             <h1 className="text-3xl pt-2 font-semibold">Courses</h1>
 
-            <SearchBar containerClass="mt-4" />
+            <SearchBar
+                containerClass="mt-4"
+                onSubmit={handleSearch}
+                onChange={handleChange}
+            />
+            {filteredCourses && (
+                <>
+                    <HeadingAndCourseCards
+                        heading="Search Results"
+                        courses={filteredCourses}
+                        noCourseMessage="No courses found"
+                    />
+                    {teachers?.length > 0 && (
+                        <>
+                            <div
+                                className="text-lg mt-4 font-medium"
+                                id="explore"
+                            >
+                                Teachers
+                            </div>
+                            <div className="flex flex-wrap justify-start gap-x-6 gap-y-4 mt-6 items-center">
+                                {teachers?.map((teacher) => (
+                                    <SmallUserCard
+                                        key={teacher._id}
+                                        user={teacher}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </>
+            )}
+            {!filteredCourses && (
+                <>
+                    <EnrolledCourseSection />
 
-            <EnrolledCourseSection />
+                    <TeachersSection />
 
-            <TeachersSection />
-
-            <RecentlyAddedCourse />
+                    <RecentlyAddedCourse />
+                </>
+            )}
         </div>
     );
 };

@@ -7,6 +7,7 @@ import {
     getAllCourses,
     getCourse,
     getRecentCourses,
+    searchCourses,
     updateCourse,
 } from "../controllers/courses.js";
 import {
@@ -21,6 +22,9 @@ router.get("/", isLoggedIn, isTeacher, getAllCourses);
 
 // Get recent courses
 router.get("/recents", isLoggedIn, getRecentCourses);
+
+// search courses
+router.get("/search", isLoggedIn, searchCourses);
 
 // Get a course
 router.get("/:id", isLoggedIn, isTeacher, getCourse);

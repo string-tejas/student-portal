@@ -14,6 +14,7 @@ const initialState = {
         message: "",
         type: "",
     },
+    allCourses: null,
 };
 
 export const GlobalActions = {
@@ -32,6 +33,7 @@ export const GlobalActions = {
     ADD_ENROLLED_COURSE: "ADD_ENROLLED_COURSE",
     RESET_ENROLLED_COURSES: "RESET_ENROLLED_COURSES",
     SET_TEACHERS: "SET_TEACHERS",
+    SET_ALL_COURSES: "SET_ALL_COURSES",
 };
 
 const globalReducer = (state, action) => {
@@ -121,6 +123,12 @@ const globalReducer = (state, action) => {
             return {
                 ...state,
                 teachers: action.payload,
+            };
+
+        case GlobalActions.SET_ALL_COURSES:
+            return {
+                ...state,
+                allCourses: action.payload,
             };
 
         default:

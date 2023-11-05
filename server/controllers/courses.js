@@ -235,3 +235,56 @@ export const getRecentCourses = async (req, res) => {
         });
     }
 };
+
+export const searchCourses = async (req, res) => {
+    try {
+        const { query } = req.query;
+
+        const courses = await Course.find(
+            {
+                $or: [
+                    { name: { $regex: query, $options: "i" } },
+                    { code: { $regex: query, $options: "i" } },
+                ],
+            },
+            {
+                name: 1,
+                code: 1,
+                creator_id: 1,
+                course_img: 1,
+                batch: 1,
+                description: 1,
+                createdAt: 1,
+            }
+        )
+            .populate("creator_id", {
+                name: 1,
+                email: 1,
+            })
+            .sort({ createdAt: -1 })
+            .limit(10)
+            .exec();
+
+        const teachers = await User.find({
+            $or: [
+                { name: { $regex: query, $options: "i" } },
+                { email: { $regex: query, $options: "i" } },
+            ],
+        })
+            .select("name email profile_img")
+            .limit(10)
+            .exec();
+
+        return res.status(200).json({
+            ok: true,
+            courses,
+            teachers,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            message: "Internal server error",
+        });
+    }
+};

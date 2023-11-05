@@ -139,7 +139,7 @@ const StudentAssignment = () => {
         <>
             <div
                 className={`grid h-full ${
-                    hasSubmitted() ? "grid-cols-2" : "grid-cols-1"
+                    hasSubmitted() ? "grid-cols-2 gap-x-2" : "grid-cols-1"
                 }`}
             >
                 <div>
@@ -238,6 +238,10 @@ const DetailsSection = ({
         }
     };
 
+    const submissionDatePassed = () => {
+        return moment(assignment?.deadline).isBefore(moment());
+    };
+
     return (
         <>
             <h1 className="text-3xl font-semibold mt-4">{assignment?.name}</h1>
@@ -263,9 +267,9 @@ const DetailsSection = ({
                 {assignment?.references.split(";").map((ref) => {
                     return (
                         <Link href={ref} key={uuid()}>
-                            <span className="text-blue-500 hover:underline">
+                            <div className="text-blue-500 hover:underline">
                                 {ref}
-                            </span>
+                            </div>
                         </Link>
                     );
                 })}
@@ -278,26 +282,28 @@ const DetailsSection = ({
                             ? "Loading..."
                             : submission
                             ? submission?.createdAt
-                            : "No submission yet"}
+                            : "No submission yet "}
                     </span>
-                    <div>
-                        <button
-                            onClick={() => {
-                                uploadRef.current.click();
-                            }}
-                            className="px-4 py-1 bg-blue-600 rounded-md hover:bg-blue-700"
-                        >
-                            {submission ? "Reupload" : "Upload"}
-                        </button>
-                        {submission && (
+                    {!submissionDatePassed() && (
+                        <div>
                             <button
-                                onClick={handleRemove}
-                                className="px-4 py-1 ml-2 bg-red-600 rounded-md hover:bg-red-700"
+                                onClick={() => {
+                                    uploadRef.current.click();
+                                }}
+                                className="px-4 py-1 bg-blue-600 rounded-md hover:bg-blue-700"
                             >
-                                Remove
+                                {submission ? "Reupload" : "Upload"}
                             </button>
-                        )}
-                    </div>
+                            {submission && (
+                                <button
+                                    onClick={handleRemove}
+                                    className="px-4 py-1 ml-2 bg-red-600 rounded-md hover:bg-red-700"
+                                >
+                                    Remove
+                                </button>
+                            )}
+                        </div>
+                    )}
                     <input
                         ref={uploadRef}
                         type="file"

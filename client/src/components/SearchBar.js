@@ -8,12 +8,19 @@ const SearchBar = ({
     buttonClass = "",
     onSubmit = async () => {},
     placeholder = "Search",
+    onChange = async () => {},
 }) => {
     const [search, setSearch] = React.useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         await onSubmit(search);
+    };
+
+    const handleChange = async (e) => {
+        const value = e.target.value;
+        setSearch(value);
+        await onChange(value);
     };
 
     return (
@@ -25,7 +32,7 @@ const SearchBar = ({
                 type="text"
                 placeholder={placeholder}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={handleChange}
                 className={
                     inputClass +
                     " rounded-md w-52 text-xs md:text-base md:w-80 outline-none focus:ring-1 bg-gray-700 px-3 py-2"
