@@ -41,16 +41,14 @@ server.addService(mailProto.Mail.service, {
 });
 
 server.bindAsync(
-    `127.0.0.1:${process.env.PORT}`,
+    `0.0.0.0:${process.env.PORT}`,
     grpc.ServerCredentials.createInsecure(),
     (err, port) => {
         if (err != null) {
             return console.error(err);
         }
         server.start();
-        console.log(
-            `Mail service running at http://127.0.0.1:${process.env.PORT}`
-        );
+        console.log(`Mail service running at :${process.env.PORT}`);
         lamportClock.tick();
     }
 );

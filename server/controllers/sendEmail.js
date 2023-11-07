@@ -20,7 +20,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 const mailProto = grpc.loadPackageDefinition(packageDefinition).mail;
 
 const client = new mailProto.Mail(
-    `127.0.0.1:${process.env.MAIL_PORT}`,
+    `${process.env.MAIL_PORT}`,
     grpc.credentials.createInsecure()
 );
 

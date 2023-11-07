@@ -6,7 +6,7 @@ import emailTemplates from "../util/emailTemplates.js";
 import generateToken from "../util/generateToken.js";
 import hash from "../util/hash.js";
 import isEmailValid from "../util/isEmailValid.js";
-import sendEmail from "./sendEmail.js";
+import sendEmail from "./sendEmail2.js";
 
 export const login = async (req, res) => {
     try {
