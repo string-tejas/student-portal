@@ -1,0 +1,51 @@
+version: "3"
+services:
+    nextjsfrontend:
+        build:
+            context: "./client"
+            dockerfile: Dockerfile
+        ports:
+            - 3000:3000
+        container_name: student-portal-nextjs-container
+        environment:
+            - WATCHPACK_POLLING=true
+        networks:
+            - student-portal-network
+        volumes:
+            - ./client:/app
+        env_file:
+            - ./client/.env
+        depends_on:
+            - expressjsbackend
+            - fileuploader
+
+    expressjsbackend:
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        ports:
+            - 5005:5005
+        container_name: student-portal-expressjs-container
+        networks:
+            - student-portal-network
+        volumes:
+            - ./server:/app
+        env_file:
+            - ./server/.env
+
+    fileuploader:
+        build:
+            context: ./services/file-uploader
+            dockerfile: Dockerfile
+        ports:
+            - 3555:3555
+        container_name: student-portal-fileuploader-container
+        networks:
+            - student-portal-network
+        volumes:
+            - ./services/file-uploader:/app
+        env_file:
+            - ./services/file-uploader/.env
+
+networks:
+    student-portal-network:
