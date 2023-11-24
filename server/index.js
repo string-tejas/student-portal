@@ -9,6 +9,7 @@ import coursesRoutes from "./routes/courses.js";
 import studentRoutes from "./routes/student.js";
 import sevaRoutes from "./routes/seva.js";
 import teacherRoutes from "./routes/teacher.js";
+import quoteRoutes from "./routes/quote.js";
 // import servicesRoutes from "./routes/services.js";
 import connectDb from "./config/database.js";
 import LamportClock from "./lamport.js";
@@ -52,6 +53,7 @@ app.use("/courses", coursesRoutes);
 app.use("/students", studentRoutes);
 app.use("/seva", sevaRoutes);
 app.use("/teachers", teacherRoutes);
+app.use("/quote", quoteRoutes);
 // app.use("/services", servicesRoutes);
 
 app.get("/pdf", async (req, res) => {

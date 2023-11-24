@@ -1,4 +1,5 @@
 "use client";
+import { getQuote } from "@/api/quote";
 import { getHomePageData } from "@/api/student";
 import AssignmentCard from "@/components/AssignmentCard";
 import CourseCard from "@/components/CourseCard";
@@ -17,6 +18,12 @@ const StudentDashboard = () => {
     const [teachers, setTeachers] = React.useState(null);
 
     const [loading, setLoading] = React.useState(true);
+    const [quote, setQuote] = React.useState(null);
+
+    const getAndSetQuote = async () => {
+        const result = await getQuote();
+        setQuote(result.quote);
+    };
 
     const getAndSetHomePageData = async () => {
         setLoading(true);
@@ -33,12 +40,24 @@ const StudentDashboard = () => {
 
     React.useEffect(() => {
         getAndSetHomePageData();
+        getAndSetQuote();
     }, []);
 
     return (
         <main className="grid px-5 py-2 gap-4 md:grid-cols-12">
             <div className="md:col-span-12">
-                <GreetHead name={state?.user?.name?.first} />
+                <GreetHead
+                    name={state?.user?.name?.first}
+                    msg={
+                        <div>
+                            {quote?.title[0]}
+                            <br />
+                            <span className="text-gray-200 italic block ml-[50%]">
+                                - {quote?.author[0]}
+                            </span>
+                        </div>
+                    }
+                />
             </div>
             {loading && (
                 <>
